@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Bootstrap -->
+    	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+   		<title>Requisições Assincronas com JavaScript Puro</title>
+   		<!-- bootstrap - link cdn -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+   		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and 
+    		media queries -->
+	    <!-- WARNING: Respond.js doesn't work if you view the page via file://-->
+	    <!--[if lt IE 9]>
+	      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js">
+	      </script>
+	      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js">
+	      </script>
+	    <![endif]-->
+	    <script type="text/javascript">
+	    	//variável que irá guardar o nosso objeto XMLhttpRequest
+	    	var httpRequest;
+	    	
+	    	function doRequest(url, destino)
+	    	{	//exibição de icone de carregamento enquanto o conteúdo 
+	    		//é carregado
+	    		document.getElementById(destino).innerHTML = '<center><img src="loader.gif"/></center>';
+	    		//verifica se existe nesta janela a requisição HTTPRequest,
+	    		//que é a implementação dos browsers atuais
+	    		if(window.XMLHttpRequest) 
+	    		{httpRequest = new XMLHttpRequest();}
+	    		//caso contrário, verifico se há outro objeto, que é compatível
+	    		//para versões mais antigas do IE
+	    		else if(window.ActiveXObject)
+	    		{	try
+	    			{httpRequest = new ActiveXObject("MSxml2.XMLHTTP");}
+	    			catch(e)
+	    			{	try
+	    				{httpRequest = new ActiveXObject("Microsoft.XMLHTTP");}
+	    				catch(e)
+	    				{alert('Impossivel instanciar o objeto xmlhttprequest');}
+	    			}
+	    		}//se não houver requisição
+	    		if(!httpRequest)
+	    		{	alert('Erro ao tentar criar uma instancia do objeto XMLHTTPREQUEST');
+	    			return false;
+	    		}
+	    		//atributo que verifica se o cabeçalho foi ou não criado
+	    		httpRequest.onreadystatechange = situacaoRequisicao;
+	    		//realizando a requisição via GET
+	    		httpRequest.open('GET', url);
+	    		//método send para disparar este cabeçalho que o método
+	    		//open gera.
+	    		httpRequest.send();
+	    	}
+	    	//função que verifica a situação da requisição
+	    	function situacaoRequisicao()
+	    	{	//se as propriedades estiverem prontas 
+	    		if(httpRequest.readyState == 4)
+	    		{	//verifica se o status do servidor estiver OK
+	    			if(httpRequest.status == 200)
+	    			{	//recupera a informação da requisição 
+	    				document.getElementById('div_conteudo').innerHTML = httpRequest.responseText;
+	    			}
+	    		}
+	    	}
+	    </script>
+	</head>
+	<body>
+		<!-- Static navbar -->
+	    <nav class="navbar navbar-default navbar-static-top">
+	      <div class="container">
+	        <div class="navbar-header">
+	        	<h3>Requisições síncronas e assíncronas</h3>
+	        </div>
+	      </div>
+	    </nav>
+
+
+	    <div class="container">
+
+	    	<div class="row">
+	    		<div class="col-md-4 center"></div>
+	    		<div class="col-md-4 center">
+	    			<a href="#" class="btn btn-primary" onclick="doRequest('pagina_1_conteudo.html', 'div_conteudo')">Página 1</a>
+	    			<a href="#" class="btn btn-primary" onclick="doRequest('pagina_2_conteudo.html', 'div_conteudo')">Página 2</a>
+	    			<a href="#" class="btn btn-primary" onclick="doRequest('pagina_3_conteudo.html', 'div_conteudo')">Página 3</a>
+	    		</div>
+	    		<div class="col-md-4 center"></div>
+	    	</div>
+	    	
+	    	<br />
+	    	<div class="row">
+		    	<div class="col-md-1"></div>
+				<!-- id com div_conteudo que será o conteúdo que
+					deverá ser exibido ao clicar no link com a
+					função onclick=doRequest() e mostrar nessa 
+					<div></div> -->
+		    	<div class="col-md-10" id="div_conteudo">
+		    		<!-- contúdo que será exibido ao clicar na opção
+		    			desejada -->
+		    	</div>
+		    		
+				<div class="col-md-1"></div>
+			</div>
+		</div>
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    	<!-- Include all compiled plugins (below), or include individual files as needed -->
+    	<script src="bootstrap/js/bootstrap.min.js"></script>
+	</body>
+</html>

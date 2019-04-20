@@ -1,0 +1,95 @@
+.barra-direita {float:right;}
+
+.barra-direita:hover 
+{	background:white;
+	font-weight:900;
+}
+
+.barra 
+{	display:inline;
+	color:#fff;
+	float:left;
+}
+
+nav.navbar-transparente
+{	padding: 15px 0px;
+	/*transparência no fundo, o ultimo
+	numero é a opacidade*/
+	background: rgba(0, 0, 0, 0.6);
+	border: none;
+}
+
+body {background-color: #F4F4FA;}
+
+fieldset 
+{	/*padding: 0px 500px 0px 500px;*/
+	width:1000px;
+	height:400px;
+	margin-top:40px;
+}
+
+#form {padding-top:110px;}
+
+input {margin:10px;}
+
+td {padding:10px;}
+
+b {color:#000000;}
+
+b#titulo {color:#FFFFFF;}
+
+select
+{	margin:10px;
+	width:375px;
+	padding:15px;
+}
+
+button.btn-primary {margin-left:10px;}
+
+#alterar 
+{	margin-left:10px;
+	margin-top:10px;
+}
+/*rodapé*/
+
+#rodape {background: rgba(0, 0, 0, 0.9);}
+
+#rodape h4 {color:white;}
+
+div#rodape2 
+{padding-top: 50px;}
+
+/*flutuação de componentes a direita da página*/
+.item-rede-social {float: right;}
+
+.item:hover 
+{	background:white;
+	font-weight:900;
+}
+
+#copy 
+{	color:#ffffff;
+	font-weight: 900;
+	align:center;
+}
+
+/*---MEDIA QUERIES---*/
+/*media com o tipo de dispositivo que queremos, para qualquer
+dispositivo que tenha no mï¿½ximo 767px, podemos definir algumas
+formataï¿½ï¿½es*/
+@media screen and (max-width: 767px)
+{	h1 {font-size: 50px;}
+	.btn-custom {margin: 10px 15px;}
+}
+
+/*para dipositivos com resoluï¿½ï¿½o maior*/
+@media screen and (min-width: 768px)
+{h1 {font-size: 70px;}}
+
+/*para dispositivos com resoluï¿½ï¿½o maior ainda*/
+@media screen and (min-width: 992px)
+{h1 {font-size: 80px;}}
+
+/*configuraï¿½ï¿½o para a mï¿½xima resoluï¿½ï¿½o*/
+@media screen and (min-width: 1200px)
+{h1 {font-size: 100px;}}
