@@ -126,7 +126,7 @@
 												{sbRegistro.append("<option value='4' selected>Desenvolvedor</option>");}
 												else sbRegistro.append("<option value='4'>Desenvolvedor</option>");
 												if(funcionario.getCargo().getCodigo() == 5)
-												{sbRegistro.append("<option value='5' selected>Analista</option></select></td></tr>");}
+												{sbRegistro.append("<option value='5' selected>Analista</option></select></td>");}
 												else sbRegistro.append("<option value='5'>Analista</option></select></td>");
 												sbRegistro.append("<td align='center'>Regional:<br/><select name='regional' id='regional' class='form-control'>");
 												if(funcionario.getRegional().getCodigo() == 1)
@@ -175,7 +175,7 @@
 			    <div class="container">
 			    	<div class="row">
 			    		<div class="col-md-2">
-			    			<h4>Company</h4>
+			    			<h4>A Empresa</h4>
 			    			<ul class="nav">
 			    				<li class="item"><a href="#">Sobre</a></li>
 			    				<li class="item"><a href="#">Empregos</a></li>
@@ -187,7 +187,7 @@
 			    			<ul class="nav">
 			    				<li class="item"><a href="#">Artistas</a></li>
 			    				<li class="item"><a href="#">Desenvolvedores</a></li>
-			    				<li class="item"><a href="#">Portifólio</a></li>
+			    				<li class="item"><a href="#">Portfólio</a></li>
 			    			</ul>
 			    		</div>
 			    		<div class="col-md-4">

@@ -23,6 +23,8 @@ nav.navbar-transparente
 	border: none;
 }
 
+button.acao {backgound:none;}
+
 body {background-color: #F4F4FA;}
 
 #form {padding-top:120px;}

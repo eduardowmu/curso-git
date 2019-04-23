@@ -314,7 +314,7 @@ public class FuncionarioVH implements IViewHelper
 			
 			case "InativarFuncionario":
 				if(resposta.getMsg() == null)
-					resposta.setMsg("Funcionário : Situação");
+					resposta.setMsg("Situação do Funcionario");
 				request.getSession().setAttribute("resposta", resposta);
 				rd = request.getRequestDispatcher("ListaFuncionarios.jsp");
 				break;

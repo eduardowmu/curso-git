@@ -71,37 +71,29 @@
 				<table align="center">
 					<thead>
 					<tr>
-						<td class="formulario">
+						<td class="formulario"><br/>
 							<input type="number" name="matricula" placeholder="matrícula (Somente números)" 
 								size="30" class="form-control"/>
 						</td>
-						<td class="formulario">
+						<td class="formulario"><br/>
 							<input type="text" name="nome" placeholder="Nome Completo" 
 								size="30" class="form-control"/>
 						</td>
-						<td class="formulario">
-							<button type='submit' class='btn btn-danger form-control' name='funcionario' 
-								id='funcionario' value='ExcluirFuncionario'>Excluir</button>
+						<td class="formulario"><br/>
+							<input type="number" name="cpf" placeholder="Numero de CPF" 
+								size="30" class="form-control"/>
+						</td>
+						<td class="formulario"><br/>
+							<input type="text" name="email" placeholder="e-mail" 
+								size="30" class="form-control"/>
 						</td>
 					</tr>
 					</thead>
 					<tr>
-						<td class="formulario">
-							<input type="number" name="cpf" placeholder="Numero de CPF" 
-								size="30" class="form-control"/>
-						</td class="formulario" align="center">
-						<td class="formulario">
-							<input type="date" name="data" size="30" class="form-control"/>
+						<td class="formulario">Contratado em:<br/>
+							<input type="date" name="data" width="90px" class="form-control""/>
 						</td>
-						<td class="formulario">
-							<button type="submit" name="funcionario" class="btn btn-info form-control"
-								value="InativarFuncionario">
-								(In)ativar
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td class="formulario">
+						<td class="formulario"><br/>
 							<select name="setor" id="setor" class="form-control">
 								<option value = "0">Setor</option>
 								<option value = "1">Recursos Humanos</option>
@@ -112,7 +104,7 @@
 		                    	<option value = "6">Engenharia</option>
 							</select>
 						</td>
-						<td class="formulario">
+						<td class="formulario"><br/>
 							<select name="regional" id="regional" class="form-control">
 		                    	<option value="0">Regional</option>
 								<option value="1">Zona Sul</option>
@@ -122,53 +114,48 @@
 		                    	<option value="5">Mogi das Cruzes</option>
 		                    </select>
 						</td>
-						<td class="formulario">
-							<button type='submit' class='btn btn-warning form-control' 
-								name='funcionario' id='funcionario' value='VisualizarFuncionario'>
-								Alterar</button>
+						<td class="formulario"><br/>
+							<select name="cargo" id="cargo" class="form-control">
+		                    	<option value="0">Cargo</option>
+								<option value="1">Engenheiro</option>
+		                    	<option value="2">Secretario</option>
+		                    	<option value="3">Operador</option>
+		                    	<option value="4">Desenvolvedor</option>
+		                    	<option value="5">Analista</option>
+		                    </select>
 						</td>
 					</tr>
 					<tr>
-						<td class="formulario">
-							<input type="text" name="email" placeholder="e-mail" 
-								size="30" class="form-control"/>
-						</td>
-						<td class="formulario">
-							<select name="perfil" id="perfil" class="form-control">
-		                    	<option value="0">Cargo</option>
-								<option value="1">Atendente</option>
-		                    	<option value="2">Triagem inicial</option>
-		                    	<option value="3">Triagem de Grupo</option>
-		                    	<option value="4">Administrador</option>
-		                    	<option value="5">Administrador de Sistema</option>
-		                    </select>
-						</td>
-						<td class="formulario">
+						<td class="formulario"><br/>
 							<button type="submit" name="funcionario" value="ConsultarFuncionario" 
 								class="btn btn-primary form-control">Consultar</button>
 						</td>
 					</tr>
 				</table>
 			</div><br/>
+			</form>
 			<div>
 				<table class="table table-striped table-bordered table-hover table-condensed">
 					<tr align="center">
 						<td class="tabela"><b>Matricula</b></td>
 						<td class="tabela"><b>Nome</b></td>
 						<td class="tabela"><b>CPF</b></td>
-						<td class="tabela"><b>Contratado em:</b></td>
+						<td class="tabela"><b>Admissão</b></td>
 						<td class="tabela"><b>Setor</b></td>
-						<td class="tabela"><b>Regional</b></td>
 						<td class="tabela"><b>Cargo</b></td>
+						<td class="tabela"><b>Regional</b></td>
 						<td class="tabela"><b>E-mail</b></td>
 						<td class="tabela"><b>Status</b></td>
 						<td class="tabela"><b>Data do cadastro</b></td>
+						<td class="tabela"><b>Excluir</b></td>
+						<td class="tabela"><b>Editar</b></td>
+						<td class="tabela"><b>Ativar/<br/>Inativar</b></td>
 					</tr>
 					<%
 						if(resposta != null && (resposta.getMsg().equals("Funcionário Cadastrado!") ||
 							resposta.getMsg().equals("Dados da Consulta!") || 
 							resposta.getMsg().equals("Funcionário excluído!") || 
-							resposta.getMsg().equals("Funcionário : Situação") || 
+							resposta.getMsg().equals("Situação do Funcionario") || 
 							resposta.getMsg().equals("Seja bem vindo ao portal de Chamados!") ||
 							resposta.getMsg().equals("Senha Alterada!") ||
 							resposta.getMsg().equals("Dados Alterados!")))
@@ -182,14 +169,14 @@
 									sbRegistro.setLength(0);
 									sbLink.setLength(0);
 									//dados do funcionario cadastrado
-									sbRegistro.append("<tr>");
+									sbRegistro.append("<form action='MyServlet' method='post'><tr>");
 									sbRegistro.append("<td class='linha' align='center'>");
 									if(i == 0)
-									{	sbRegistro.append("<input type='radio' name='id' value='" + 
+									{	sbRegistro.append("<input type='hidden' name='id' value='" + 
 										funcionario.getCodigo() + "' checked/>");
 									}
 									else
-									{	sbRegistro.append("<input type='radio' name='id' value='" + 
+									{	sbRegistro.append("<input type='hidden' name='id' value='" + 
 										funcionario.getCodigo() + "'/>");
 									}
 									sbRegistro.append(" "+funcionario.getCodigo() + "</td>");
@@ -206,10 +193,10 @@
 									sbRegistro.append(funcionario.getSetor().getNome());
 									sbRegistro.append("</td>");
 									sbRegistro.append("<td class='linha' align='center'>");
-									sbRegistro.append(funcionario.getRegional().getNome());
+									sbRegistro.append(funcionario.getCargo().getNome());
 									sbRegistro.append("</td>");
 									sbRegistro.append("<td class='linha' align='center'>");
-									sbRegistro.append(funcionario.getCargo().getNome());
+									sbRegistro.append(funcionario.getRegional().getNome());
 									sbRegistro.append("</td>");
 									sbRegistro.append("<td class='linha' align='center'>");
 									sbRegistro.append(funcionario.getEmail());
@@ -225,7 +212,20 @@
 									sbRegistro.append("<td class='linha' align='center'>");
 									sbRegistro.append(funcionario.getDataCadastro());
 									sbRegistro.append("</td>");
-									sbRegistro.append("</tr>");
+									sbRegistro.append("<td align='center'>");
+									sbRegistro.append("<button type='submit' class='btn btn-link acao form-control' name='funcionario' id='funcionario' value='ExcluirFuncionario'>" +
+														"<img src='imagens/seo-social-web-network-internet_262_icon-icons.com_61518.png'/></button>");
+									sbRegistro.append("</td>");
+									sbRegistro.append("<td align='center'>");
+									sbRegistro.append("<button type='submit' class='btn btn-link acao form-control' name='funcionario' id='funcionario' value='VisualizarFuncionario'>" +
+														"<img src='imagens/edit_pencil_6320.png'/></button>");
+									sbRegistro.append("</td>");
+									sbRegistro.append("<td align='center'>");
+									sbRegistro.append("<button type='submit' class='btn btn-link acao form-control' name='funcionario' id='funcionario' value='InativarFuncionario'>" +
+														"<img src='imagens/disable_remove_delete_exit_close_11881.png'/></button>");
+									sbRegistro.append("</td>");
+									
+									sbRegistro.append("</tr></form>");
 									//escrever todos as tags e valores armazenadas no sbRegistro.
 									out.print(sbRegistro.toString());
 								}
@@ -235,14 +235,13 @@
 						}
 					%>					
 				</table>
-			</form>
 		</div>
 		<div id="rodape2">
 	    	<footer id="rodape">
 			    <div class="container">
 			    	<div class="row">
 			    		<div class="col-md-2">
-			    			<h4>Company</h4>
+			    			<h4>A Empresa</h4>
 			    			<ul class="nav">
 			    				<li class="item"><a href="#">Sobre</a></li>
 			    				<li class="item"><a href="#">Empregos</a></li>
@@ -254,7 +253,7 @@
 			    			<ul class="nav">
 			    				<li class="item"><a href="#">Artistas</a></li>
 			    				<li class="item"><a href="#">Desenvolvedores</a></li>
-			    				<li class="item"><a href="#">Portifólio</a></li>
+			    				<li class="item"><a href="#">Portfólio</a></li>
 			    			</ul>
 			    		</div>
 			    		<div class="col-md-4">
