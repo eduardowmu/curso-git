@@ -28,6 +28,8 @@ fieldset
 	margin-top:40px;
 }
 
+label {padding-left:10px;}
+
 #form {padding-top:110px;}
 
 input {margin:10px;}

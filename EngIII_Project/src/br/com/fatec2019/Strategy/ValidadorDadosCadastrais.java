@@ -17,7 +17,7 @@ public class ValidadorDadosCadastrais extends AbstractStrategy
 				{	Funcionario funcionario = (Funcionario)entidade;
 					if(funcionario.getCpf().equals("") && funcionario.getEmail().equals("") &&
 						funcionario.getSetor().getCodigo() < 1 && funcionario.getRegional().getCodigo() < 1
-						&& funcionario.getDataRegistro().equals(""))
+						&& funcionario.getDataRegistro().equals(null))
 					{return "Dados incorretos";}
 				}
 			}

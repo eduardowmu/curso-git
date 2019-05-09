@@ -21,7 +21,7 @@ public abstract class AbstractDAO implements IDAO
 	{	this.connection = null;
 		PreparedStatement ps = null;
 		//passa tudo para minúscula e armazena o nome da entidade
-		this.table = entidade.getClass().getName().toLowerCase();
+		this.table = entidade.getClass().getSimpleName().toLowerCase();
 		StringBuilder sb = new StringBuilder();
 		sb.append("DELETE FROM ");
 		sb.append(this.getTableName(this.table));

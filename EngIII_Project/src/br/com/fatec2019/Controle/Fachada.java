@@ -4,8 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import br.com.fatec2019.Dominio.Cargo;
 import br.com.fatec2019.Dominio.EntidadeDominio;
 import br.com.fatec2019.Dominio.Funcionario;
+import br.com.fatec2019.Dominio.Regional;
+import br.com.fatec2019.Dominio.Setor;
 import br.com.fatec2019.DAO.*;
 import br.com.fatec2019.Strategy.*;
 import br.com.fatec2019.DAO.IDAO;
@@ -87,6 +90,7 @@ public class Fachada implements IFachada
 		rnAlterarFunc.add(vu);
 		rnAlterarFunc.add(vEmail);
 		rnAlterarFunc.add(vSenha);
+		rnAlterarFunc.add(cs);
 		
 		//add na lista de regras para Alterar senha de funcionarios
 		rnAlterarSenha.add(vEmail);
@@ -152,18 +156,28 @@ public class Fachada implements IFachada
 	{	resposta = new Resposta();//variável a ser retornado
 		//se a execução, indexada por um nome de uma classe, 
 		//das regras da entidade para salvar não for nula
+		List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
 		if(this.executeRules(entidade, "CadastrarFuncionario") == null)
 		{	IDAO dao = daos.get(entidade.getClass().getName());
 			try
 			{	dao.Salvar(entidade);
-				List<EntidadeDominio> entidades = new 
-						ArrayList<EntidadeDominio>();
 				entidades.add(entidade);
 				resposta.setEntidades(entidades);
 			}
 			catch(Exception e)
 			{	e.printStackTrace();	
 				resposta.setMsg("Não foi possível realizar o registro!");
+			}
+			finally
+			{	SetorDAO sdao = new SetorDAO();
+				for(EntidadeDominio ed:sdao.Consultar())
+				{entidades.add(ed);}
+				CargoDAO cdao = new CargoDAO();
+				for(EntidadeDominio ed:cdao.Consultar())
+				{entidades.add(ed);}
+				RegionalDAO rdao = new RegionalDAO();
+				for(EntidadeDominio ed:rdao.Consultar())
+				{entidades.add(ed);}
 			}
 		}
 		else resposta.setMsg(this.executeRules(entidade, "CadastrarFuncionario"));
@@ -176,18 +190,28 @@ public class Fachada implements IFachada
 		String nameClass = entidade.getClass().getName();
 		//se a execução, indexada por um nome de uma classe, 
 		//das regras da entidade para salvar não for nula
+		List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
 		if(this.executeRules(entidade, "AlterarFuncionario") == null)
 		{	IDAO dao = daos.get(nameClass);
 			try	//chama o método de alterar
 			{	dao.Alterar(entidade);
-				List<EntidadeDominio> entidades = new 
-						ArrayList<EntidadeDominio>();
 				entidades.add(entidade);
 				resposta.setEntidades(entidades);
 			}
 			catch(Exception e)
 			{	e.printStackTrace();	
 				resposta.setMsg("Não foi possível alterar o registro!");
+			}
+			finally
+			{	SetorDAO sdao = new SetorDAO();
+				for(EntidadeDominio ed:sdao.Consultar())
+				{entidades.add(ed);}
+				CargoDAO cdao = new CargoDAO();
+				for(EntidadeDominio ed:cdao.Consultar())
+				{entidades.add(ed);}
+				RegionalDAO rdao = new RegionalDAO();
+				for(EntidadeDominio ed:rdao.Consultar())
+				{entidades.add(ed);}
 			}
 		}
 		else resposta.setMsg(this.executeRules(entidade, "AlterarFuncionario"));
@@ -200,17 +224,28 @@ public class Fachada implements IFachada
 		String nameClass = entidade.getClass().getName();
 		//se a execução, indexada por um nome de uma classe, 
 		//das regras da entidade para salvar não for nula
+		List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
 		if(this.executeRules(entidade, "AlterarSenha") == null)
 		{	FuncionarioDAO dao = new FuncionarioDAO();
 			try	//chama o método de alterar
 			{	dao.AlterarSenha(entidade);
-				List<EntidadeDominio> entidades = new 
-						ArrayList<EntidadeDominio>();
+				entidades.add(entidade);
 				resposta.setEntidades(entidades);
 			}
 			catch(Exception e)
 			{	e.printStackTrace();	
 				resposta.setMsg("Não foi possível alterar a senha!");
+			}
+			finally
+			{	SetorDAO sdao = new SetorDAO();
+				for(EntidadeDominio ed:sdao.Consultar())
+				{entidades.add(ed);}
+				CargoDAO cdao = new CargoDAO();
+				for(EntidadeDominio ed:cdao.Consultar())
+				{entidades.add(ed);}
+				RegionalDAO rdao = new RegionalDAO();
+				for(EntidadeDominio ed:rdao.Consultar())
+				{entidades.add(ed);}
 			}
 		}
 		else resposta.setMsg(this.executeRules(entidade, "AlterarSenha"));
@@ -223,18 +258,28 @@ public class Fachada implements IFachada
 		String nameClass = entidade.getClass().getName();
 		//se a execução, indexada por um nome de uma classe, 
 		//das regras da entidade para excluir não for nula
+		List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
 		if(this.executeRules(entidade, "ExcluirFuncionario") == null)
 		{	IDAO dao = daos.get(nameClass);
 			try
 			{	dao.Excluir(entidade);
-				List<EntidadeDominio> entidades = new 
-						ArrayList<EntidadeDominio>();
 				//entidades.add(entidade);
 				resposta.setEntidades(entidades);
 			}
 			catch(Exception e)
 			{	e.printStackTrace();	
 				resposta.setMsg("Não foi possível excluir o registro!");
+			}
+			finally
+			{	SetorDAO sdao = new SetorDAO();
+				for(EntidadeDominio ed:sdao.Consultar())
+				{entidades.add(ed);}
+				CargoDAO cdao = new CargoDAO();
+				for(EntidadeDominio ed:cdao.Consultar())
+				{entidades.add(ed);}
+				RegionalDAO rdao = new RegionalDAO();
+				for(EntidadeDominio ed:rdao.Consultar())
+				{entidades.add(ed);}
 			}
 		}
 		else resposta.setMsg(this.executeRules(entidade, "ExcluirFuncionario"));
@@ -245,15 +290,27 @@ public class Fachada implements IFachada
 	{	resposta = new Resposta();//variável a ser retornado
 		//se a execução, indexada por um nome de uma classe, 
 		//das regras da entidade para consultar não for nula
+		List<EntidadeDominio> entidades = new ArrayList<>();
 		if(this.executeRules(entidade, "ConsultarFuncionario") == null)
 		{	IDAO dao = daos.get(entidade.getClass().getName());
 			try
-			{	List<EntidadeDominio> entidades = dao.Consultar(entidade);
+			{	entidades = dao.Consultar(entidade);
 				resposta.setEntidades(entidades);
 			}
 			catch(Exception e)
 			{	e.printStackTrace();	
 				resposta.setMsg("Não foi possível consultar o registro!");
+			}
+			finally
+			{	SetorDAO sdao = new SetorDAO();
+				for(EntidadeDominio ed:sdao.Consultar())
+				{entidades.add(ed);}
+				CargoDAO cdao = new CargoDAO();
+				for(EntidadeDominio ed:cdao.Consultar())
+				{entidades.add(ed);}
+				RegionalDAO rdao = new RegionalDAO();
+				for(EntidadeDominio ed:rdao.Consultar())
+				{entidades.add(ed);}
 			}
 		}	
 		else resposta.setMsg(this.executeRules(entidade, "ConsultarFuncionario"));
@@ -263,10 +320,16 @@ public class Fachada implements IFachada
 	//ser exibido em um formulário para alteração
 	@Override public Resposta visualizar(EntidadeDominio entidade) 
 	{	resposta = new Resposta();
+		List<EntidadeDominio> entidades = new ArrayList<>();
 		if(this.executeRules(entidade, "VisualizarFuncionario") == null)
 		{	IDAO dao = daos.get(entidade.getClass().getName());
 			try
-			{	List<EntidadeDominio> entidades = new ArrayList<>();
+			{	for(EntidadeDominio ed:dao.Consultar(entidade))
+				{	if(ed.getCodigo() == entidade.getCodigo())
+					{	entidade = ed;
+						break;
+					}
+				}
 				entidades.add(entidade);
 				//entidades.add(dao.ConsultarEntidade(entidade));
 				resposta.setEntidades(entidades);
@@ -275,6 +338,17 @@ public class Fachada implements IFachada
 			{	e.printStackTrace();	
 				resposta.setMsg("Não foi possível encontrar o funcionario");
 			}
+			finally
+			{	SetorDAO sdao = new SetorDAO();
+				for(EntidadeDominio ed:sdao.Consultar())
+				{entidades.add(ed);}
+				CargoDAO cdao = new CargoDAO();
+				for(EntidadeDominio ed:cdao.Consultar())
+				{entidades.add(ed);}
+				RegionalDAO rdao = new RegionalDAO();
+				for(EntidadeDominio ed:rdao.Consultar())
+				{entidades.add(ed);}
+			}
 		}
 		else resposta.setMsg(this.executeRules(entidade, "VisualizarFuncionario"));
 		return resposta;
@@ -282,15 +356,27 @@ public class Fachada implements IFachada
 	
 	@Override public Resposta Logar(EntidadeDominio entidade)
 	{	resposta = new Resposta();
+		List<EntidadeDominio> entidades = new ArrayList<>();
 		if(this.executeRules(entidade, "LogarFuncionario") == null)
 		{	IDAO dao = daos.get(entidade.getClass().getName());
 			try
-			{	List<EntidadeDominio> entidades = dao.Consultar(entidade);
+			{	entidades = dao.Consultar(entidade);
 				resposta.setEntidades(entidades);
 			}
 			catch(Exception e)
 			{	e.printStackTrace();	
 				resposta.setMsg("Não foi possível encontrar o funcionario");
+			}
+			finally
+			{	SetorDAO sdao = new SetorDAO();
+				for(EntidadeDominio ed:sdao.Consultar())
+				{entidades.add(ed);}
+				CargoDAO cdao = new CargoDAO();
+				for(EntidadeDominio ed:cdao.Consultar())
+				{entidades.add(ed);}
+				RegionalDAO rdao = new RegionalDAO();
+				for(EntidadeDominio ed:rdao.Consultar())
+				{entidades.add(ed);}
 			}
 		}
 		else resposta.setMsg(this.executeRules(entidade, "LogarFuncionario"));
@@ -300,17 +386,28 @@ public class Fachada implements IFachada
 	//este método foi pensado tanto para desativar como ativar funcionario / Entidade
 	@Override public Resposta Inativar(EntidadeDominio entidade) 
 	{	resposta = new Resposta();
+		List<EntidadeDominio> entidades = new ArrayList<>();
 		if(this.executeRules(entidade, "InativarFuncionario") == null)
 		{	IDAO dao = daos.get(entidade.getClass().getName());
 			try
 			{	dao.Inativar(entidade);
-				List<EntidadeDominio> entidades = new ArrayList<>();
 				entidades.add(entidade);
 				resposta.setEntidades(entidades);
 			}
 			catch(Exception e)
 			{	e.printStackTrace();	
 				resposta.setMsg("Não foi possível encontrar o funcionario");
+			}
+			finally
+			{	SetorDAO sdao = new SetorDAO();
+				for(EntidadeDominio ed:sdao.Consultar())
+				{entidades.add(ed);}
+				CargoDAO cdao = new CargoDAO();
+				for(EntidadeDominio ed:cdao.Consultar())
+				{entidades.add(ed);}
+				RegionalDAO rdao = new RegionalDAO();
+				for(EntidadeDominio ed:rdao.Consultar())
+				{entidades.add(ed);}
 			}
 		}
 		else resposta.setMsg(this.executeRules(entidade, "InativarFuncionario"));

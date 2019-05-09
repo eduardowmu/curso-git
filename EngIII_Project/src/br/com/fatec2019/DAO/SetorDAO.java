@@ -98,4 +98,36 @@ public class SetorDAO extends AbstractDAO
 		}
 		return setores;
 	}
+	
+	@Override public List<EntidadeDominio> Consultar()
+	{	Setor setor = null;
+		PreparedStatement ps = null;
+		List<EntidadeDominio> setores = new ArrayList<>();
+		try
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+			//impede o auto-commit
+			this.connection.setAutoCommit(false);
+			ps = this.connection.prepareStatement("SELECT * FROM setor");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{	setor = new Setor(rs.getInt("setor_id"));
+				setor.setNome(rs.getNString("nome"));
+				setores.add(setor);
+			}
+		}
+		catch(ClassNotFoundException | SQLException e)	
+		{	System.out.println(e.getMessage());
+			try {this.connection.rollback();} 
+			catch (SQLException e1) {System.out.println(e1.getMessage());}
+		}
+		finally
+		{	try
+			{	ps.close();
+				this.connection.close();
+			}
+			catch(SQLException e1)	{System.out.println(e1.getMessage());}
+		}
+		return setores;
+	}
 }

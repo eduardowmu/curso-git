@@ -10,4 +10,5 @@ public interface IDAO
 	public abstract void Inativar(EntidadeDominio entidade);
 	public abstract List<EntidadeDominio> Consultar(EntidadeDominio entidade);
 	public abstract EntidadeDominio ConsultarEntidade(EntidadeDominio entidade);
+	public abstract List<EntidadeDominio> Consultar();
 }

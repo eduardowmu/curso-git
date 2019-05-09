@@ -10,7 +10,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import br.com.fatec2019.Dominio.EntidadeDominio;
 import br.com.fatec2019.Strategy.ValidadorRegional;
 import br.com.fatec2019.Strategy.ValidadorSetor;
@@ -357,5 +356,11 @@ public class FuncionarioDAO extends AbstractDAO
 			catch(SQLException e2){e2.printStackTrace();}
 		}
 		return f;
+	}
+
+	@Override
+	public List<EntidadeDominio> Consultar() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

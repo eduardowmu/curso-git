@@ -3,6 +3,7 @@
 <%@ page import = "java.util.*,br.com.fatec2019.Dominio.*" %>
 <%@ page import = "java.util.*,br.com.fatec2019.Controle.*" %>
 <%@ page import = "java.util.*,br.com.fatec2019.DAO.*" %>
+<%@ page import = "java.text.*" %>
 <!--possibilita usar a tag core, que chama o looping forEach-->    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -64,8 +65,19 @@
     	</div>
 		<div id="form">
 			<%	Resposta resposta = (Resposta)session.getAttribute("resposta");
+				StringBuilder sbRegistro = null;
 				if(resposta != null && resposta.getMsg() != null)
-				{out.print("<h2 align='center'>----" + resposta.getMsg() + "----</h2>");}
+				{	if(resposta != null && (resposta.getMsg().equals("Funcionário Cadastrado!") ||
+						resposta.getMsg().equals("Dados da Consulta!") || 
+						resposta.getMsg().equals("Funcionário excluído!") || 
+						resposta.getMsg().equals("Situação do Funcionario") || 
+						resposta.getMsg().equals("Seja bem vindo ao portal de Chamados!") ||
+						resposta.getMsg().equals("Senha Alterada!") ||
+						resposta.getMsg().equals("Dados Alterados!")))
+					{out.print("<div class='alert alert-success' align='center'>" + resposta.getMsg() + "</div>");}
+				
+					else out.print("<div class='alert alert-danger' align='center'>" + resposta.getMsg() + "</div>");
+				}
 			%>
 			<form action="MyServlet" method="get">
 				<table align="center">
@@ -96,35 +108,73 @@
 						<td class="formulario"><br/>
 							<select name="setor" id="setor" class="form-control">
 								<option value = "0">Setor</option>
-								<option value = "1">Recursos Humanos</option>
+								<%	if(resposta != null && resposta.getEntidades() != null)
+									{	for(EntidadeDominio ed:resposta.getEntidades())
+										{	if(ed instanceof Setor)
+											{	sbRegistro = new StringBuilder();
+												sbRegistro.setLength(0);
+												sbRegistro.append("<option value = '" + ed.getCodigo() + "'>" + 
+												ed.getNome() +"</option>");
+												out.print(sbRegistro.toString());
+											}
+										}
+									}
+								%>
+								<!-- <option value = "1">Recursos Humanos</option>
 		                    	<option value = "2">Tecnologia da Informacao</option>
 		                    	<option value = "3">Suprimentos</option>
 		                    	<option value = "4">Marketing</option>
 		                    	<option value = "5">Pos Venda</option>
-		                    	<option value = "6">Engenharia</option>
+		                    	<option value = "6">Engenharia</option> -->
 							</select>
 						</td>
 						<td class="formulario"><br/>
 							<select name="regional" id="regional" class="form-control">
 		                    	<option value="0">Regional</option>
-								<option value="1">Zona Sul</option>
+								<%	if(resposta != null && resposta.getEntidades() != null)
+									{	for(EntidadeDominio ed:resposta.getEntidades())
+										{	if(ed instanceof Regional)
+											{	sbRegistro = new StringBuilder();
+												sbRegistro.setLength(0);
+												sbRegistro.append("<option value = '" + ed.getCodigo() + "'>" + 
+												ed.getNome() +"</option>");
+												out.print(sbRegistro.toString());
+											}
+										}
+									}
+								%>
+								<!-- <option value="1">Zona Sul</option>
 		                    	<option value="2">Zona Leste</option>
 		                    	<option value="3">Zona Norte</option>
 		                    	<option value="4">Zona Oeste</option>
-		                    	<option value="5">Mogi das Cruzes</option>
+		                    	<option value="5">Mogi das Cruzes</option> -->
 		                    </select>
 						</td>
 						<td class="formulario"><br/>
 							<select name="cargo" id="cargo" class="form-control">
 		                    	<option value="0">Cargo</option>
-								<option value="1">Engenheiro</option>
+								<%	if(resposta != null && resposta.getEntidades() != null)
+									{	for(EntidadeDominio ed:resposta.getEntidades())
+										{	if(ed instanceof Cargo)
+											{	sbRegistro = new StringBuilder();
+												sbRegistro.setLength(0);
+												sbRegistro.append("<option value = '" + ed.getCodigo() + "'>" + 
+												ed.getNome() +"</option>");
+												out.print(sbRegistro.toString());
+											}
+										}
+									}
+								%>
+								<!-- <option value="1">Engenheiro</option>
 		                    	<option value="2">Secretario</option>
 		                    	<option value="3">Operador</option>
 		                    	<option value="4">Desenvolvedor</option>
-		                    	<option value="5">Analista</option>
+		                    	<option value="5">Analista</option> -->
 		                    </select>
 						</td>
 					</tr>
+				</table>
+				<table align="center">
 					<tr>
 						<td class="formulario"><br/>
 							<button type="submit" name="funcionario" value="ConsultarFuncionario" 
@@ -163,75 +213,85 @@
 							{	List<EntidadeDominio> entidades = resposta.getEntidades();
 								//se houver funcionario(s)
 								for(int i = 0; i < entidades.size(); i++)
-								{	Funcionario funcionario = (Funcionario)entidades.get(i);
-									StringBuilder sbRegistro = new StringBuilder();
-									StringBuilder sbLink = new StringBuilder();
-									sbRegistro.setLength(0);
-									sbLink.setLength(0);
-									//dados do funcionario cadastrado
-									sbRegistro.append("<form action='MyServlet' method='post'><tr>");
-									sbRegistro.append("<td class='linha' align='center'>");
-									if(i == 0)
-									{	sbRegistro.append("<input type='hidden' name='id' value='" + 
-										funcionario.getCodigo() + "' checked/>");
+								{	if(entidades.get(i) instanceof Funcionario)
+									{	Funcionario funcionario = (Funcionario)entidades.get(i);
+										sbRegistro = new StringBuilder();
+										StringBuilder sbLink = new StringBuilder();
+										sbRegistro.setLength(0);
+										sbLink.setLength(0);
+										//dados do funcionario cadastrado
+										sbRegistro.append("<form action='MyServlet' method='post'><tr>");
+										sbRegistro.append("<td class='linha' align='center'>");
+										sbRegistro.append("<input type='hidden' name='id' value='" + 
+											funcionario.getCodigo() + "'/>");
+										sbRegistro.append(" "+funcionario.getCodigo() + "</td>");
+										sbRegistro.append("<td class='linha' align='center'>");
+										sbRegistro.append("<input type='hidden' name='name' value='" + 
+												funcionario.getNome() + "'/>");
+										sbRegistro.append(funcionario.getNome());
+										sbRegistro.append("</td>");
+										sbRegistro.append("<td class='linha' align='center'>");
+										sbRegistro.append("<input type='hidden' name='CPF' value='" + 
+												funcionario.getCpf() + "'/>");
+										sbRegistro.append(funcionario.getCpf());
+										sbRegistro.append("</td>");
+										sbRegistro.append("<td class='linha' align='center'>");
+										DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+										sbRegistro.append("<input type='hidden' name='contrato' value='" + 
+												df.format(funcionario.getDataRegistro()) + "'/>");
+										sbRegistro.append(String.valueOf(funcionario.DateToString(funcionario.getDataRegistro())));
+										sbRegistro.append("</td>");
+										sbRegistro.append("<td class='linha' align='center'>");
+										sbRegistro.append("<input type='hidden' name='setor2' value='" + 
+												funcionario.getSetor().getCodigo() + "'/>");
+										sbRegistro.append(funcionario.getSetor().getNome());
+										sbRegistro.append("</td>");
+										sbRegistro.append("<td class='linha' align='center'>");
+										sbRegistro.append("<input type='hidden' name='cargo2' value='" + 
+												funcionario.getCargo().getCodigo() + "'/>");
+										sbRegistro.append(funcionario.getCargo().getNome());
+										sbRegistro.append("</td>");
+										sbRegistro.append("<td class='linha' align='center'>");
+										sbRegistro.append("<input type='hidden' name='regional2' value='" + 
+												funcionario.getRegional().getCodigo() + "'/>");
+										sbRegistro.append(funcionario.getRegional().getNome());
+										sbRegistro.append("</td>");
+										sbRegistro.append("<td class='linha' align='center'>");
+										sbRegistro.append("<input type='hidden' name='Email' value='" + 
+												funcionario.getEmail() + "'/>");
+										sbRegistro.append(funcionario.getEmail());
+										sbRegistro.append("</td>");
+										sbRegistro.append("<td class='linha' align='center'>");
+										sbRegistro.append("<input type='hidden' name='status' value='" +
+												funcionario.getStatus() + "'/>");
+										if(funcionario.getStatus().equals("ativo"))	
+										{sbRegistro.append("<font color='green'>");}
+										else sbRegistro.append("<font color='red'>");
+										sbRegistro.append(funcionario.getStatus().toUpperCase() + "</font>");
+										sbRegistro.append("</td>");
+										sbRegistro.append("<td class='linha' align='center'>");
+										sbRegistro.append(funcionario.getDataCadastro());
+										sbRegistro.append("</td>");
+										sbRegistro.append("<td align='center'>");
+										sbRegistro.append("<button type='submit' class='btn btn-link acao form-control' name='funcionario' id='funcionario' value='ExcluirFuncionario'>" +
+															"<img src='imagens/seo-social-web-network-internet_262_icon-icons.com_61518.png'/></button>");
+										sbRegistro.append("</td>");
+										sbRegistro.append("<td align='center'>");
+										sbRegistro.append("<button type='submit' class='btn btn-link acao form-control' name='funcionario' id='funcionario' value='VisualizarFuncionario'>" +
+															"<img src='imagens/edit_pencil_6320.png'/></button>");
+										sbRegistro.append("</td>");
+										sbRegistro.append("<td align='center'>");
+										sbRegistro.append("<button type='submit' class='btn btn-link acao form-control' name='funcionario' id='funcionario' value='InativarFuncionario'>" +
+															"<img src='imagens/disable_remove_delete_exit_close_11881.png'/></button>");
+										sbRegistro.append("</td>");
+										sbRegistro.append("</tr></form>");
+										//escrever todos as tags e valores armazenadas no sbRegistro.
+										out.print(sbRegistro.toString());
 									}
-									else
-									{	sbRegistro.append("<input type='hidden' name='id' value='" + 
-										funcionario.getCodigo() + "'/>");
-									}
-									sbRegistro.append(" "+funcionario.getCodigo() + "</td>");
-									sbRegistro.append("<td class='linha' align='center'>");
-									sbRegistro.append(funcionario.getNome());
-									sbRegistro.append("</td>");
-									sbRegistro.append("<td class='linha' align='center'>");
-									sbRegistro.append(funcionario.getCpf());
-									sbRegistro.append("</td>");
-									sbRegistro.append("<td class='linha' align='center'>");
-									sbRegistro.append(String.valueOf(funcionario.DateToString(funcionario.getDataRegistro())));
-									sbRegistro.append("</td>");
-									sbRegistro.append("<td class='linha' align='center'>");
-									sbRegistro.append(funcionario.getSetor().getNome());
-									sbRegistro.append("</td>");
-									sbRegistro.append("<td class='linha' align='center'>");
-									sbRegistro.append(funcionario.getCargo().getNome());
-									sbRegistro.append("</td>");
-									sbRegistro.append("<td class='linha' align='center'>");
-									sbRegistro.append(funcionario.getRegional().getNome());
-									sbRegistro.append("</td>");
-									sbRegistro.append("<td class='linha' align='center'>");
-									sbRegistro.append(funcionario.getEmail());
-									sbRegistro.append("</td>");
-									sbRegistro.append("<td class='linha' align='center'>");
-									sbRegistro.append("<input type='hidden' name='status' value='" +
-														funcionario.getStatus() + "'/>");
-									if(funcionario.getStatus().equals("ativo"))	
-									{sbRegistro.append("<font color='green'>");}
-									else sbRegistro.append("<font color='red'>");
-									sbRegistro.append(funcionario.getStatus().toUpperCase() + "</font>");
-									sbRegistro.append("</td>");
-									sbRegistro.append("<td class='linha' align='center'>");
-									sbRegistro.append(funcionario.getDataCadastro());
-									sbRegistro.append("</td>");
-									sbRegistro.append("<td align='center'>");
-									sbRegistro.append("<button type='submit' class='btn btn-link acao form-control' name='funcionario' id='funcionario' value='ExcluirFuncionario'>" +
-														"<img src='imagens/seo-social-web-network-internet_262_icon-icons.com_61518.png'/></button>");
-									sbRegistro.append("</td>");
-									sbRegistro.append("<td align='center'>");
-									sbRegistro.append("<button type='submit' class='btn btn-link acao form-control' name='funcionario' id='funcionario' value='VisualizarFuncionario'>" +
-														"<img src='imagens/edit_pencil_6320.png'/></button>");
-									sbRegistro.append("</td>");
-									sbRegistro.append("<td align='center'>");
-									sbRegistro.append("<button type='submit' class='btn btn-link acao form-control' name='funcionario' id='funcionario' value='InativarFuncionario'>" +
-														"<img src='imagens/disable_remove_delete_exit_close_11881.png'/></button>");
-									sbRegistro.append("</td>");
 									
-									sbRegistro.append("</tr></form>");
-									//escrever todos as tags e valores armazenadas no sbRegistro.
-									out.print(sbRegistro.toString());
 								}
 							
 							}
-							
 						}
 					%>					
 				</table>

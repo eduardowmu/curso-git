@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -117,7 +116,7 @@ public class FuncionarioVH implements IViewHelper
 				catch(NullPointerException e)	{funcionario.setCargo(new Cargo(0));}
 				
 				try
-				{	if(!request.getParameter("email").equals(""))
+				{	if(request.getParameter("email").equals(""))
 					{funcionario.setEmail("");}
 					
 					else funcionario.setEmail(request.getParameter("email").trim());
@@ -129,22 +128,17 @@ public class FuncionarioVH implements IViewHelper
 				funcionario = new Funcionario();
 				//int codigo = Integer.parseInt(request.getParameter("id"));
 				//busca do funcionario apenas pelo ID
-				try	
-				{	if(!request.getParameter("id").equals(""))
-					{funcionario.setCodigo(Integer.parseInt(request.getParameter("id")));}
-				
-					else funcionario.setCodigo(0);
-				}
-				catch(NullPointerException e) {funcionario.setCodigo(0);}
+				funcionario.setCodigo(Integer.parseInt(request.getParameter("id")));
 				//não permitir valores nulos
-				funcionario.setNome("");
-				funcionario.setCpf("");
-				funcionario.setSetor(new Setor(0));
-				funcionario.setRegional(new Regional(0));
-				funcionario.setEmail("");
-				funcionario.setCargo(new Cargo(0));
+				funcionario.setNome(request.getParameter("name"));
+				funcionario.setCpf(request.getParameter("CPF"));
+				funcionario.setEmail(request.getParameter("Email"));
+				funcionario.setSetor(new Setor(Integer.parseInt(request.getParameter("setor2"))));
+				funcionario.setRegional(new Regional(Integer.parseInt(request.getParameter("regional2"))));
+				funcionario.setEmail("Email");
+				funcionario.setCargo(new Cargo(Integer.parseInt(request.getParameter("cargo2"))));
 				//data de contratação
-				try {funcionario.setDataRegistro(dtf.parse("0000-01-01"));} 
+				try {funcionario.setDataRegistro(dtf.parse(request.getParameter("contrato")));} 
 				catch (ParseException e1) {}
 				
 				break;
@@ -157,7 +151,7 @@ public class FuncionarioVH implements IViewHelper
 				funcionario.setCodigo(Integer.parseInt(request.getParameter("matricula")));
 				
 				funcionario.setNome(request.getParameter("nome").trim());
-				funcionario.setCpf(request.getParameter("cpf"));
+				funcionario.setCpf(request.getParameter("cpf").trim());
 				
 				
 				try//data de contratação
@@ -186,7 +180,6 @@ public class FuncionarioVH implements IViewHelper
 				funcionario.setCpf("");
 				funcionario.setSetor(new Setor(0));
 				funcionario.setRegional(new Regional(0));
-				funcionario.setEmail("");
 				funcionario.setCargo(new Cargo(0));
 				//data de contratação
 				try {funcionario.setDataRegistro(dtf.parse("0000-01-01"));} 
@@ -286,16 +279,15 @@ public class FuncionarioVH implements IViewHelper
 					request.getSession().setAttribute("resposta", resposta);
 					rd = request.getRequestDispatcher("ListaFuncionarios.jsp");
 				}
-				else
-				{	request.getSession().setAttribute("resposta", resposta);
-					rd = request.getRequestDispatcher("ListaFuncionarios.jsp");
-				}
+				
+				request.getSession().setAttribute("resposta", resposta);
+				rd = request.getRequestDispatcher("ListaFuncionarios.jsp");
 				break;
 					
 			case "LogarFuncionario":
 				if(resposta.getMsg() == null)
 				{	resposta.setMsg("Seja bem vindo ao portal de Chamados!");
-					request.getSession().setAttribute("reposta", resposta);
+					request.getSession().setAttribute("resposta", resposta);
 					rd = request.getRequestDispatcher("ListaFuncionarios.jsp");
 				}
 				

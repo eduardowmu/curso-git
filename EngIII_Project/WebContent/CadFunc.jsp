@@ -51,6 +51,7 @@
 							<li><a class="barra-direita" href="FuncForm.html">Funcionarios</a></li>
 							<li><a class="barra-direita" href="#">Categorias</a></li>
 							<li><a class="barra-direita" href="#">Chamados</a></li>
+							<li><a class="barra-direita" href="login.html">Sair</a></li>
 						</ul>
 					</div>
 				</div>
@@ -58,21 +59,35 @@
     	</div>
     	<!-- Formulário -->
     	<div id="form" align="center">
+    	<%	Resposta resposta = (Resposta)session.getAttribute("resposta");
+			if(resposta != null && resposta.getMsg() != null)
+			{out.print("<input type='hidden' name='resposta' id='resposta' value='"+resposta.getMsg()+"'/>");}
+		%>
     		<fieldset>
     			<legend><i><b>Cadastro de Funcionários</b></i></legend>
 		        <form action="MyServlet" method="post">
-		        	<%	Resposta resposta = (Resposta)session.getAttribute("resposta");
-						if(resposta != null && resposta.getMsg() != null)
-						{	out.print("<input type='hidden' name='user' id='user' value='" + 
-										resposta.getEntidades().get(0).getCodigo() + "'/>");
-						}
-						else {out.print("<input type='hidden' name='user' id='user' value='1'/>");}
-					%>
-		            <table>
+		        	<table>
 		                <thead>
 		                <tr>
 		                    <td><input type="text" name="nome" id="nome" class="form-control" 
-		                    	placeholder="Nome completo" required/>
+		                    	size="50" placeholder="Nome completo" required/>
+		                    </td>
+		                    <td><input type="number" name="cpf" id="cpf" class="form-control" 
+		                    	size="50" placeholder="Número de CPF" required/>
+		                    </td>
+		                    <td><input type="email" name="email" id="email" placeholder="e-mail" 
+		                         size="50" class="form-control" required/>
+		                    </td>
+		                </tr>
+		                <tr>
+		                    <td>
+		                    	<select name="regional" id="regional" class="form-control">
+		                    		<option value = "1">Zona Sul</option>
+		                    		<option value = "2">Zona Leste</option>
+		                    		<option value = "3">Zona Norte</option>
+		                    		<option value = "4">Zona Oeste</option>
+		                    		<option value = "5">Mogi das Cruzes</option>
+		                    	</select>
 		                    </td>
 		                    <td>
 		                    	<select name="setor" id="setor" class="form-control">
@@ -84,54 +99,36 @@
 		                    		<option value = "6">Engenharia</option>
 		                    	</select>
 		                    </td>
-		                </tr>
-		                <tr>
-		                    <td><input type="number" name="cpf" id="cpf" class="form-control" 
-		                    	placeholder="Número de CPF" required/>
-		                    </td>
 		                    <td>
-		                    	<select name="regional" id="regional" class="form-control">
-		                    		<option value = "1">Zona Sul</option>
-		                    		<option value = "2">Zona Leste</option>
-		                    		<option value = "3">Zona Norte</option>
-		                    		<option value = "4">Zona Oeste</option>
-		                    		<option value = "5">Mogi das Cruzes</option>
-		                    	</select>
-		                    </td>
-		                </tr>
-		                <tr>
-		                    <td><input type="email" name="email" id="email" placeholder="e-mail" 
-		                         class="form-control" required/>
-		                    </td>
-		                    <td>
-								<select name="perfil" id="perfil" class="form-control">
-		                    		<option value = "1">Atendente</option>
-		                    		<option value = "2">Triagem inicial</option>
-		                    		<option value = "3">Triagem de Grupo</option>
-		                    		<option value = "4">Administrador</option>
-		                    		<option value = "5">Administrador de Sistema</option>
+								<select name="cargo" id="cargo" class="form-control">
+		                    		<option value = "1">Engenheiro</option>
+		                    		<option value = "2">Secretario</option>
+		                    		<option value = "3">Operador</option>
+		                    		<option value = "4">Desenvolvedor</option>
+		                    		<option value = "5">Analista</option>
 		                    	</select>
 							</td>
 		                </tr>
 		                <tr>
-							<td>
+							<td><br/>
 								<input type="password" name="senha1" id="senha1" 
 									placeholder="8 dig., 1 Caracter especial, 1 letra maicuscula e minuscula" 
 									required class="form-control"/>
 							</td>
-							<td>
+							<td><br/>
 								<input type="password" name="senha2" id="senha2" placeholder="Repita senha" 
 									 required class="form-control"/>
 							</td>
-						</tr>
-						<tr>
-		                    <td align="center">Contratado em:<br/>
+							<td align="center">Contratado em:<br/>
 		                    	<input type="date" name="data" id="data" class="form-control" 
 		                    		placeholder="Contratado em" required/>
 		                    </td>
+						</tr>
+						<tr>
+							<td><input type="hidden" class="form-control"/></td>
 		                    <td align="center"><br/>
 		                    	<button type="submit" class="btn btn-primary form-control" name="funcionario" 
-		                    		value="CadastrarFuncionario">Cadastrar</button>
+		                    		value="CadastrarFuncionario"><img src="imagens/Save_37110.png"/> Cadastrar</button>
 		                    </td>
 		                </tr>
 		            </table>
@@ -144,7 +141,7 @@
 			    <div class="container">
 			    	<div class="row">
 			    		<div class="col-md-2">
-			    			<h4>Company</h4>
+			    			<h4>A Empresa</h4>
 			    			<ul class="nav">
 			    				<li class="item"><a href="#">Sobre</a></li>
 			    				<li class="item"><a href="#">Empregos</a></li>
@@ -156,7 +153,7 @@
 			    			<ul class="nav">
 			    				<li class="item"><a href="#">Artistas</a></li>
 			    				<li class="item"><a href="#">Desenvolvedores</a></li>
-			    				<li class="item"><a href="#">Portifólio</a></li>
+			    				<li class="item"><a href="#">Portfólio</a></li>
 			    			</ul>
 			    		</div>
 			    		<div class="col-md-4">
