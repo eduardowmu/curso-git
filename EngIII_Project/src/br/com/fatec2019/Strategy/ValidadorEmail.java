@@ -13,7 +13,7 @@ public class ValidadorEmail extends AbstractStrategy
 		if(funcionario.getEmail().contains("@gmail.com"))
 			return null;
 		
-		return "E-mail incorreto\n";
+		return "E-mail incorreto. ";
 	}	
 
 }

@@ -1,3 +1,13 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!--Importação de Lista e pacote onde estão as classes de dominio e controle-->
+<%@ page import = "java.util.*,br.com.fatec2019.Dominio.*" %>
+<%@ page import = "java.util.*,br.com.fatec2019.Controle.*" %>
+<%@ page import = "java.util.*,br.com.fatec2019.DAO.*" %>
+<%@ page import = "java.text.*" %>
+<!--possibilita usar a tag core, que chama o looping forEach-->    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br">
@@ -29,12 +39,12 @@
 					<div class="navbar-header">
 						<!-- na classe foi inserido o mesmo nome dado a
 							classe da <div></div> para linkar as listas
-							ao botÃ£o -->
+							ao botão -->
 						<button type="button" class="navbar-toggle collapsed" 
 							data-toggle="collapse" data-target="#barra-navegacao">
-							<!-- botÃ£o que aparece quando a tela fica menor
-								de forma que nÃ£o fique visÃ­vel alguns componentes -->
-							<span class="sr-only">Alternar navegaÃ§Ã£o</span>
+							<!-- botão que aparece quando a tela fica menor
+								de forma que não fique visível alguns componentes -->
+							<span class="sr-only">Alternar navegação</span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
@@ -54,9 +64,13 @@
 			</nav>
     	</div>
 		<div id="form" align="center">
+			<%	Resposta resposta = (Resposta)session.getAttribute("resposta");
+				if(resposta != null)
+				{out.print("<div class='alert alert-danger' align='center'>" + resposta.getMsg() + "</div>");}
+			%>
 			<form action="MyServlet" method="post">
 				<fieldset>
-					<legend>Login</legend>
+					<legend>Alterar senha</legend>
 					<table>
 						<thead>
 							<tr>
@@ -68,20 +82,20 @@
 							<tr>
 								<td>
 									<input type="password" name="senha" id="senha" class="form-control"
-										size="40" placeholder="Senha cadastrada" required/>
+										size="40" placeholder="Nova senha" required/>
 								</td>
 							</tr>
 							<tr>
-								<td align="center">
+								<td>
+									<input type="password" name="senha2" id="senha2" class="form-control"
+										size="40" placeholder="Confirmar senha" required/>
+								</td>
+							</tr>
+							<tr>
+								<td>
 									<Button type="submit" name="funcionario" id="funcionario" 
-										class="btn btn-primary form-control" value="LogarFuncionario">
+										class="btn btn-primary form-control" value="AlterarSenha">
 										Entrar</Button>
-								</td>
-							</tr>
-							<tr>
-								<td align="center">
-									<a class="btn btn-warning form-control" id="alterar" href="alterar_senha.html">
-										Esqueceu a senha?</a>
 								</td>
 							</tr>
 						</thead>
@@ -106,7 +120,7 @@
 			    			<ul class="nav">
 			    				<li class="item"><a href="#">Artistas</a></li>
 			    				<li class="item"><a href="#">Desenvolvedores</a></li>
-			    				<li class="item"><a href="#">PortfÃ³lio</a></li>
+			    				<li class="item"><a href="#">Portifólio</a></li>
 			    			</ul>
 			    		</div>
 			    		<div class="col-md-4">

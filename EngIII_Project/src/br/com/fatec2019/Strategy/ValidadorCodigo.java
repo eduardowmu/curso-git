@@ -17,6 +17,6 @@ public class ValidadorCodigo extends AbstractStrategy
 			}
 			return null;
 		}
-		else return "Não foi possível realizar a ação!";
+		else return "Não foi possível realizar a ação! ";
 	}
 }

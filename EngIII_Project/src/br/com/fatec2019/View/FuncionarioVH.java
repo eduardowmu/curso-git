@@ -86,10 +86,10 @@ public class FuncionarioVH implements IViewHelper
 				{	if(!request.getParameter("data").equals(""))
 					{funcionario.setDataRegistro(dtf.parse(request.getParameter("data")));}
 				
-					else  funcionario.setDataRegistro(dtf.parse(""));
+					else  funcionario.setDataRegistro(dtf.parse("1000-01-01"));
 				}
 				catch(ParseException e) 
-				{	try {funcionario.setDataRegistro(dtf.parse("0000-01-01"));} 
+				{	try {funcionario.setDataRegistro(dtf.parse("1000-01-01"));} 
 					catch (ParseException e1) {}
 				}
 				
@@ -268,7 +268,7 @@ public class FuncionarioVH implements IViewHelper
 					
 				else
 				{	request.getSession().setAttribute("resposta", resposta);
-					rd = request.getRequestDispatcher("FuncForm.html");
+					rd = request.getRequestDispatcher("CadFunc.jsp");
 				}
 					
 				break;
@@ -280,8 +280,10 @@ public class FuncionarioVH implements IViewHelper
 					rd = request.getRequestDispatcher("ListaFuncionarios.jsp");
 				}
 				
-				request.getSession().setAttribute("resposta", resposta);
-				rd = request.getRequestDispatcher("ListaFuncionarios.jsp");
+				else
+				{	request.getSession().setAttribute("resposta", resposta);
+					rd = request.getRequestDispatcher("FuncForm.jsp");
+				}
 				break;
 					
 			case "LogarFuncionario":
@@ -292,8 +294,8 @@ public class FuncionarioVH implements IViewHelper
 				}
 				
 				else
-				{	request.getSession().setAttribute("reposta", resposta);
-					rd = request.getRequestDispatcher("login.html");
+				{	request.getSession().setAttribute("resposta", resposta);
+					rd = request.getRequestDispatcher("login.jsp");
 				}
 				
 				break;
@@ -320,7 +322,7 @@ public class FuncionarioVH implements IViewHelper
 				
 				else
 				{	request.getSession().setAttribute("resposta", resposta);
-					rd = request.getRequestDispatcher("alterar_senha.html");
+					rd = request.getRequestDispatcher("alterar_senha.jsp");
 				}
 				break;
 			

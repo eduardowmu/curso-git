@@ -64,7 +64,11 @@
     		<%	StringBuilder sbRegistro = null;
     			Resposta resposta = (Resposta)session.getAttribute("resposta");
 				if(resposta != null && resposta.getMsg() != null)	
-				{out.print("<div class='alert alert-info' align='center'>" + resposta.getMsg() + "</div>");}
+				{	if(resposta.getMsg().equals("Insira os dados a serem alterados"))
+					{out.print("<div class='alert alert-info' align='center'>" + resposta.getMsg() + "</div>");}
+				
+					else	out.print("<div class='alert alert-danger' align='center'>" + resposta.getMsg() + "</div>");
+				}
 			%>
 			<fieldset>
     			<legend><i><b>Alteração de Funcionários</b></i></legend>

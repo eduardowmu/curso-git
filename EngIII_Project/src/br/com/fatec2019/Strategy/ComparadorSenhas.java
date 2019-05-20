@@ -9,7 +9,7 @@ public class ComparadorSenhas extends AbstractStrategy
 		if(funcionario.getSenha().equals(funcionario.getSenha2()))
 			return null;
 		
-		return "Senhas não batem";
+		return "Senhas não batem. ";
 	}
 
 }

@@ -17,12 +17,13 @@ public class ValidadorDadosCadastrais extends AbstractStrategy
 				{	Funcionario funcionario = (Funcionario)entidade;
 					if(funcionario.getCpf().equals("") && funcionario.getEmail().equals("") &&
 						funcionario.getSetor().getCodigo() < 1 && funcionario.getRegional().getCodigo() < 1
-						&& funcionario.getDataRegistro().equals(null))
-					{return "Dados incorretos";}
+						&& funcionario.getCargo().getCodigo() < 1 && 
+						funcionario.DateToString(funcionario.getDataRegistro()).equals("01/01/1000"))
+					{return "Preencha pelo menos um campo. ";}
 				}
 			}
 			return null;
 		}
-		catch(NullPointerException | ParseException e)	{return "Dados inválidos";}
+		catch(NullPointerException | ParseException e)	{return "Dados inválidos. ";}
 	}
 }

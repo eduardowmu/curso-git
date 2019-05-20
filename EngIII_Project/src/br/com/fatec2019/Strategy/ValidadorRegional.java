@@ -19,6 +19,6 @@ public class ValidadorRegional extends AbstractStrategy
 			}
 			catch(NullPointerException e) {return e.getMessage();}
 		}
-		return "Campo Regional não preenchido";
+		return "Campo Regional não preenchido. ";
 	}	
 }
