@@ -49,13 +49,18 @@
 					<!-- compatibilidade para dispositivos menores-->
 					<div class="collapse navbar-collapse" id="barra-navegacao">
 						<h2 class="barra">
-							<b id=titulo>Sistema de Atendimento</b>
+							<b id=titulo>Sistema de Atendimento</b><br/>
 							<%  Resposta resposta = (Resposta)session.getAttribute("resposta");
+								String user_email = "";
+								int user_id = 0;
 								if(resposta != null && resposta.getEntidades() != null &&
 									!resposta.getEntidades().isEmpty())
 								{	for(EntidadeDominio ed:resposta.getEntidades())
 									{	if(ed instanceof Usuario)
-										{out.print(ed.getNome());}
+										{	user_email = ed.getNome();
+											user_id = ed.getCodigo();
+											out.print(user_email);
+										}
 									}
 								}
 							%>
@@ -91,16 +96,8 @@
 			<fieldset>
     			<legend><i><b>Alteração de Funcionários</b></i></legend>
 		        <form action="MyServlet" method="POST">
-		            <input type="hidden" id="cf" name="cf" 
-													value="<%	if(resposta != null && resposta.getEntidades() != null)
-																{	if(!resposta.getEntidades().isEmpty())
-																	{	for(EntidadeDominio ed:resposta.getEntidades())
-																		{	if(ed instanceof Usuario)
-																			{out.print(ed.getNome());}
-																		}
-																	}
-																}
-															%>"/>
+		            <input type="hidden" id="cf" name="cf" value="<% out.print(user_email);%>"/>
+					<input type="hidden" id="cf1" name="cf1" value="<% out.print(user_id);%>"/>
 					<table>
 		            	<input type="hidden" name="matricula" value="<%	if(resposta != null && resposta.getMsg() != null)
 												                    	{	for(EntidadeDominio ed:resposta.getEntidades())

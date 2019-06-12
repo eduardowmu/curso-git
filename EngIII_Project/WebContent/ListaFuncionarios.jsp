@@ -119,8 +119,7 @@
 						<td class="formulario"><br/>
 							<select name="setor" id="setor" class="form-control">
 								<option value = "0">Setor</option>
-								<%	String user_email = "";
-									if(resposta != null && resposta.getEntidades() != null)
+								<%	if(resposta != null && resposta.getEntidades() != null)
 									{	for(EntidadeDominio ed:resposta.getEntidades())
 										{	if(ed instanceof Setor)
 											{	sbRegistro = new StringBuilder();
@@ -188,18 +187,23 @@
 				</table>
 				<table align="center">
 					<tr>
+						<%	String user_email = "";
+							int user_id = 0;
+						 %>
 						<input type="hidden" id="cf" name="cf" 
 														value="<%	if(resposta != null && resposta.getEntidades() != null)
 																	{	if(!resposta.getEntidades().isEmpty())
 																		{	for(EntidadeDominio ed:resposta.getEntidades())
 																			{	if(ed instanceof Usuario)
-																				{	out.print(ed.getNome());
-																					user_email = ed.getNome();
+																				{	user_email = ed.getNome();
+																					user_id = ed.getCodigo();
 																				}
 																			}
 																		}
 																	}
+																	out.print(user_email);
 																%>"/>
+						<%out.print("<input type='hidden' id='cf1' name='cf1' value='"+user_id+"'/>"); %>
 						<td class="formulario"><br/>
 							<button type="submit" name="funcionario" value="ConsultarFuncionario" 
 								class="btn btn-primary form-control">Consultar</button>
@@ -250,6 +254,7 @@
 										//dados do funcionario cadastrado
 										sbRegistro.append("<form action='MyServlet' method='post'><tr>");
 										sbRegistro.append("<input type='hidden' id='cf2' name='cf2' value='" + user_email + "'/>");
+										sbRegistro.append("<input type='hidden' id='cf3' name='cf3' value='" + user_id + "'/>");
 										sbRegistro.append("<td class='linha' align='center'>");
 										sbRegistro.append("<input type='hidden' name='id' value='" + 
 											funcionario.getCodigo() + "'/>");

@@ -38,6 +38,7 @@ public class FuncionarioVH implements IViewHelper
 				//esquerda e direita do valor (trim())
 				usuario = new Usuario();
 				usuario.setNome(request.getParameter("cf"));
+				usuario.setCodigo(Integer.parseInt(request.getParameter("cf1")));
 				funcionario = new Funcionario();
 				funcionario.setUsuario(usuario);
 				funcionario.setNome(request.getParameter("nome").trim());
@@ -63,6 +64,7 @@ public class FuncionarioVH implements IViewHelper
 			case "ConsultarFuncionario":
 				usuario = new Usuario();
 				usuario.setNome(request.getParameter("cf"));
+				usuario.setCodigo(Integer.parseInt(request.getParameter("cf1")));
 				funcionario = new Funcionario();
 				funcionario.setUsuario(usuario);
 				if(request.getParameter("matricula").equals("") || request.getParameter("matricula") == null)
@@ -114,17 +116,10 @@ public class FuncionarioVH implements IViewHelper
 					
 				else funcionario.setEmail(request.getParameter("email").trim());
 				
-				usuario = new Usuario();
-				usuario.setNome(funcionario.getEmail());
-				funcionario.setUsuario(usuario);
-				
 				break;
 			
 			case "VisualizarFuncionario":
-				usuario = new Usuario();
-				usuario.setNome(request.getParameter("cf2"));
 				funcionario = new Funcionario();
-				funcionario.setUsuario(usuario);
 				//int codigo = Integer.parseInt(request.getParameter("id"));
 				//busca do funcionario apenas pelo ID
 				funcionario.setCodigo(Integer.parseInt(request.getParameter("id")));
@@ -136,7 +131,8 @@ public class FuncionarioVH implements IViewHelper
 				funcionario.setRegional(new Regional(Integer.parseInt(request.getParameter("regional2"))));
 				funcionario.setEmail("Email");
 				usuario = new Usuario();
-				usuario.setNome(funcionario.getEmail());
+				usuario.setNome(request.getParameter("cf2"));
+				usuario.setCodigo(Integer.parseInt(request.getParameter("cf3")));
 				funcionario.setUsuario(usuario);
 				funcionario.setCargo(new Cargo(Integer.parseInt(request.getParameter("cargo2"))));
 				//data de contratação
@@ -148,8 +144,6 @@ public class FuncionarioVH implements IViewHelper
 			case "AlterarFuncionario":
 				//atribui os valores preecnhidos nos respectivos campos , desconsiderando espaços a 
 				//esquerda e direita do valor (trim())
-				usuario = new Usuario();
-				usuario.setNome(request.getParameter("cf"));
 				funcionario = new Funcionario();
 				funcionario.setUsuario(usuario);
 				
@@ -174,7 +168,8 @@ public class FuncionarioVH implements IViewHelper
 				
 				funcionario.setEmail(request.getParameter("email").trim());
 				usuario = new Usuario();
-				usuario.setNome(funcionario.getEmail());
+				usuario.setNome(request.getParameter("cf"));
+				usuario.setCodigo(Integer.parseInt(request.getParameter("cf1")));
 				funcionario.setUsuario(usuario);
 				
 				funcionario.setSenha(request.getParameter("senha1").trim());
@@ -220,6 +215,7 @@ public class FuncionarioVH implements IViewHelper
 			case "ExcluirFuncionario":
 				usuario = new Usuario();
 				usuario.setNome(request.getParameter("cf2"));
+				usuario.setCodigo(Integer.parseInt(request.getParameter("cf3")));
 				funcionario = new Funcionario();
 				funcionario.setUsuario(usuario);
 				if(!request.getParameter("id").equals("") && request.getParameter("id") != null)
@@ -237,6 +233,11 @@ public class FuncionarioVH implements IViewHelper
 				
 				else usuario.setNome(request.getParameter("cf"));
 				
+				if(request.getParameter("cf1").equals("") || request.getParameter("cf1") == null)
+				{usuario.setCodigo(0);}
+				
+				else usuario.setCodigo(Integer.parseInt(request.getParameter("cf1")));
+				
 				funcionario.setUsuario(usuario);
 				
 				break;
@@ -244,6 +245,8 @@ public class FuncionarioVH implements IViewHelper
 			case "InativarFuncionario":
 				usuario = new Usuario();
 				usuario.setNome(request.getParameter("cf2"));
+				usuario.setCodigo(Integer.parseInt(request.getParameter("cf3")));
+				
 				funcionario = new Funcionario();
 				funcionario.setUsuario(usuario);
 				

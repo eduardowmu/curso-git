@@ -328,6 +328,11 @@ public class Fachada implements IFachada
 			}
 			finally
 			{	this.addElementsList(entidades);
+				for(EntidadeDominio ed:dao.Consultar())
+				{	Funcionario f = (Funcionario)ed;
+					if(usuario.getNome().equals(f.getEmail()))
+					{usuario.setCodigo(f.getCodigo());}
+				}
 				resposta.setEntidades(entidades);
 			}
 		}
@@ -343,21 +348,26 @@ public class Fachada implements IFachada
 		{	Funcionario f = (Funcionario)entidade;
 			usuario = f.getUsuario();
 		}
-		entidades.add(usuario);
 		
 		if(this.executeRules(entidade, "LogarFuncionario") == null)
 		{	IDAO dao = daos.get(entidade.getClass().getName());
-			try	{entidades.addAll(dao.Consultar(entidade));}
+			try	
+			{	entidades.addAll(dao.Consultar(entidade));
+				for(EntidadeDominio ed:dao.Consultar())
+				{	Funcionario f = (Funcionario)ed;
+					if(f.getEmail().equals(usuario.getNome()))
+					{usuario.setCodigo(f.getCodigo());}
+				}
+			}
 			catch(Exception e)
 			{	e.printStackTrace();
 				resposta.setMsg("Não foi possível encontrar o funcionario");
 			}
-			finally
-			{	this.addElementsList(entidades);
-				resposta.setEntidades(entidades);
-			}
 		}
 		else resposta.setMsg(this.executeRules(entidade, "LogarFuncionario"));
+		entidades.add(usuario);
+		this.addElementsList(entidades);
+		resposta.setEntidades(entidades);
 		return resposta;
 	}
 	
@@ -373,18 +383,16 @@ public class Fachada implements IFachada
 		entidades.add(usuario);
 		if(this.executeRules(entidade, "InativarFuncionario") == null)
 		{	IDAO dao = daos.get(entidade.getClass().getName());
-			try
-			{	dao.Inativar(entidade);
-				entidades.add(entidade);
-				resposta.setEntidades(entidades);
-			}
+			try {dao.Inativar(entidade);}
 			catch(Exception e)
 			{	e.printStackTrace();	
 				resposta.setMsg("Não foi possível encontrar o funcionario");
 			}
 		}
 		else resposta.setMsg(this.executeRules(entidade, "InativarFuncionario"));
+		entidades.add(entidade);
 		this.addElementsList(entidades);
+		resposta.setEntidades(entidades);
 		return resposta;
 	}
 	
