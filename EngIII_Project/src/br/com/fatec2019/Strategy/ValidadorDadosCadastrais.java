@@ -19,11 +19,11 @@ public class ValidadorDadosCadastrais extends AbstractStrategy
 						funcionario.getSetor().getCodigo() < 1 && funcionario.getRegional().getCodigo() < 1
 						&& funcionario.getCargo().getCodigo() < 1 && 
 						funcionario.DateToString(funcionario.getDataRegistro()).equals("01/01/1000"))
-					{return "Preencha pelo menos um campo. ";}
+					{return "Preencha pelo menos um campo.\n";}
 				}
 			}
 			return null;
 		}
-		catch(NullPointerException | ParseException e)	{return "Dados inválidos. ";}
+		catch(NullPointerException | ParseException e)	{return "Dados inválidos.\n";}
 	}
 }

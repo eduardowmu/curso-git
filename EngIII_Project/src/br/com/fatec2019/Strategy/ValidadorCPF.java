@@ -35,6 +35,6 @@ public class ValidadorCPF extends AbstractStrategy
 				dig[10] == Integer.parseInt(String.valueOf(funcionario.getCpf().charAt(10))))
 			{return null;}
 		}
-		return "CPF inválido! ";
+		return "CPF inválido!\n";
 	}
 }

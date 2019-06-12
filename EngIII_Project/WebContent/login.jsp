@@ -64,8 +64,16 @@
     	</div>
 		<div id="form" align="center">
 			<%	Resposta resposta = (Resposta)session.getAttribute("resposta");
-				if(resposta != null)
-				{out.print("<div class='alert alert-danger' align='center'>" + resposta.getMsg() + "</div>");}
+				if(resposta != null && resposta.getMsg() != null)
+				{	if(resposta.getMsg().contains("E-mail incorreto") ||
+						resposta.getMsg().contains("Senha inválida") ||
+						resposta.getMsg().contains("Dados inconsistentes"))
+					{out.print("<div class='alert alert-danger' align='center'>" + resposta.getMsg() + "</div>");}
+					
+					else if(resposta.getMsg().contains("Senha Alterada!"))
+					{out.print("<div class='alert alert-success' align='center'>" + resposta.getMsg() + "</div>");}
+				}
+				
 			%>
 			<form action="MyServlet" method="post">
 				<fieldset>
@@ -93,7 +101,7 @@
 							</tr>
 							<tr>
 								<td align="center">
-									<a class="btn btn-warning form-control" id="alterar" href="alterar_senha.html">
+									<a class="btn btn-warning form-control" id="alterar" href="alterar_senha.jsp">
 										Esqueceu a senha?</a>
 								</td>
 							</tr>

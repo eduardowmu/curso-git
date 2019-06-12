@@ -48,7 +48,18 @@
 					</div>
 					<!-- compatibilidade para dispositivos menores-->
 					<div class="collapse navbar-collapse" id="barra-navegacao">
-						<h2 class="barra"><b id=titulo>Sistema de Atendimento</b></h2>
+						<h2 class="barra">
+							<b id=titulo>Sistema de Atendimento</b>
+							<%  Resposta resposta = (Resposta)session.getAttribute("resposta");
+								if(resposta != null && resposta.getEntidades() != null &&
+									!resposta.getEntidades().isEmpty())
+								{	for(EntidadeDominio ed:resposta.getEntidades())
+									{	if(ed instanceof Usuario)
+										{out.print(ed.getNome());}
+									}
+								}
+							%>
+						</h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
 							<li><a class="barra-direita" href="FuncForm.html">Funcionarios</a></li>
@@ -62,18 +73,35 @@
     	</div>
     	<div id="form" align="center">
     		<%	StringBuilder sbRegistro = null;
-    			Resposta resposta = (Resposta)session.getAttribute("resposta");
-				if(resposta != null && resposta.getMsg() != null)	
+    			if(resposta != null && resposta.getMsg() != null)	
 				{	if(resposta.getMsg().equals("Insira os dados a serem alterados"))
 					{out.print("<div class='alert alert-info' align='center'>" + resposta.getMsg() + "</div>");}
 				
-					else	out.print("<div class='alert alert-danger' align='center'>" + resposta.getMsg() + "</div>");
+					else if(resposta.getMsg().contains("Preencha pelo menos um campo") ||
+							resposta.getMsg().contains("CPF inválido") ||
+							resposta.getMsg().contains("Regional inválido") ||
+							resposta.getMsg().contains("Setor inválido") ||
+							resposta.getMsg().contains("Cargo inválido") ||
+							resposta.getMsg().contains("E-mail incorreto") ||
+							resposta.getMsg().contains("Senha inválida") ||
+							resposta.getMsg().contains("Senhas não batem"))
+					{out.print("<div class='alert alert-danger' align='center'>" + resposta.getMsg() + "</div>");}
 				}
 			%>
 			<fieldset>
     			<legend><i><b>Alteração de Funcionários</b></i></legend>
 		        <form action="MyServlet" method="POST">
-		            <table>
+		            <input type="hidden" id="cf" name="cf" 
+													value="<%	if(resposta != null && resposta.getEntidades() != null)
+																{	if(!resposta.getEntidades().isEmpty())
+																	{	for(EntidadeDominio ed:resposta.getEntidades())
+																		{	if(ed instanceof Usuario)
+																			{out.print(ed.getNome());}
+																		}
+																	}
+																}
+															%>"/>
+					<table>
 		            	<input type="hidden" name="matricula" value="<%	if(resposta != null && resposta.getMsg() != null)
 												                    	{	for(EntidadeDominio ed:resposta.getEntidades())
 													                    	{	if(ed instanceof Funcionario)
@@ -121,12 +149,23 @@
 		                    <td>
 		                    	<select name="regional" id="regional" class="form-control">
 		                    		<%	if(resposta != null)
-										{	for(EntidadeDominio ed:resposta.getEntidades())
-											{	if(ed instanceof Regional)
+										{	Funcionario funcionario = null;
+		                    				for(EntidadeDominio ed:resposta.getEntidades())
+											{	if(ed instanceof Funcionario)
+												{funcionario = (Funcionario)ed;}
+												else if(ed instanceof Regional)
 												{	sbRegistro = new StringBuilder();
 													sbRegistro.setLength(0);
-													sbRegistro.append("<option value = '" + ed.getCodigo() + "'>" + 
-													ed.getNome() +"</option>");
+													if(funcionario.getRegional().getCodigo() == ed.getCodigo())
+													{	sbRegistro.append("<option value = '" + 
+														ed.getCodigo() + "' selected>" + 
+														ed.getNome() +"</option>");
+													}
+													else
+													{	sbRegistro.append("<option value = '" + 
+														ed.getCodigo() + "'>" + 
+														ed.getNome() +"</option>");
+													}
 													out.print(sbRegistro.toString());
 												}
 											}
@@ -142,12 +181,23 @@
 		                    <td>
 		                    	<select name="setor" id="setor" class="form-control">
 		                    		<%	if(resposta != null)
-										{	for(EntidadeDominio ed:resposta.getEntidades())
-											{	if(ed instanceof Setor)
+										{	Funcionario funcionario = null;
+	                    					for(EntidadeDominio ed:resposta.getEntidades())
+											{	if(ed instanceof Funcionario)
+												{funcionario = (Funcionario)ed;}
+												else if(ed instanceof Setor)
 												{	sbRegistro = new StringBuilder();
 													sbRegistro.setLength(0);
-													sbRegistro.append("<option value = '" + ed.getCodigo() + "'>" + 
-													ed.getNome() +"</option>");
+													if(funcionario.getSetor().getCodigo() == ed.getCodigo())
+													{	sbRegistro.append("<option value = '" + 
+														ed.getCodigo() + "' selected>" + 
+														ed.getNome() +"</option>");
+													}
+													else
+													{	sbRegistro.append("<option value = '" + 
+														ed.getCodigo() + "'>" + 
+														ed.getNome() +"</option>");
+													}
 													out.print(sbRegistro.toString());
 												}
 											}
@@ -164,12 +214,23 @@
 		                    <td>
 								<select name="cargo" id="cargo" class="form-control">
 		                    		<%	if(resposta != null)
-										{	for(EntidadeDominio ed:resposta.getEntidades())
-											{	if(ed instanceof Cargo)
+										{	Funcionario funcionario = null;
+                    						for(EntidadeDominio ed:resposta.getEntidades())
+											{	if(ed instanceof Funcionario)
+												{funcionario = (Funcionario)ed;}
+												else if(ed instanceof Cargo)
 												{	sbRegistro = new StringBuilder();
 													sbRegistro.setLength(0);
-													sbRegistro.append("<option value = '" + ed.getCodigo() + "'>" + 
-													ed.getNome() +"</option>");
+													if(funcionario.getCargo().getCodigo() == ed.getCodigo())
+													{	sbRegistro.append("<option value = '" + 
+														ed.getCodigo() + "' selected>" + 
+														ed.getNome() +"</option>");
+													}
+													else
+													{	sbRegistro.append("<option value = '" + 
+														ed.getCodigo() + "'>" + 
+														ed.getNome() +"</option>");
+													}
 													out.print(sbRegistro.toString());
 												}
 											}

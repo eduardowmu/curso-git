@@ -15,8 +15,8 @@ import br.com.fatec2019.View.*;
  * Servlet implementation class MyServlet
  */
 @WebServlet("/MyServlet")
-public class MyServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+public class MyServlet extends HttpServlet 
+{	private static final long serialVersionUID = 1L;
 	//mapa de comandos
 	private static Map<String, ICommand> commands;
 	//mapa de view helper
@@ -40,6 +40,7 @@ public class MyServlet extends HttpServlet {
 		commands.put("LogarFuncionario", new LogarCommand());			//Login de Usuario
 		commands.put("InativarFuncionario", new InativarCommand());		//Inativar Funcionario
 		commands.put("AtivarFuncionario", new InativarCommand());		//Ativar Novamente. REPARE QUE ESTÁ REAPROVEITANDO O MÉTODO DE DESATIVAR!!!
+		commands.put("FormularFuncionario", new FormularCommand());		//preparar formulário para cadastrar novo usuario
 		
 		/* Utilizando o ViewHelper para tratar as especificações de qualquer tela 
 		 e indexando cada viewhelper pela url em que esta servlet é chamada 

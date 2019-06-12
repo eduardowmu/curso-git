@@ -22,6 +22,6 @@ public class ValidadorSetor extends AbstractStrategy
 			}
 			catch(NullPointerException e) {return e.getMessage();}
 		}
-		return "Setor inválido. ";
+		return "Setor inválido.\n";
 	}	
 }

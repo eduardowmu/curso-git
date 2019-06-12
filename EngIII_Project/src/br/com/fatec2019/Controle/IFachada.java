@@ -14,4 +14,5 @@ public interface IFachada
 	public abstract Resposta visualizar(EntidadeDominio entidade);
 	public abstract Resposta Logar(EntidadeDominio entidade);
 	public abstract Resposta Inativar(EntidadeDominio entidade);
+	public abstract Resposta Formular(EntidadeDominio entidade);
 }

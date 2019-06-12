@@ -24,7 +24,7 @@ nav.navbar-transparente
 }
 
 button.acao {backgound:none;}
-button.btn-primary 
+button.btn-primary, .btn-success
 {	margin-laft:90px;
 	margin-right:90px;
 }

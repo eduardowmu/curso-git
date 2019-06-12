@@ -24,6 +24,6 @@ public class ValidadorCargo extends AbstractStrategy
 		catch(NullPointerException e) {return e.getMessage();}
 		/*o próximo passo é fazer uma consulta no BD e verificar se já existe este nome 
 		 de usuário, pois se existir, deverá retornar uma mensagem ao cliente*/
-		return "Cargo inválido. ";
+		return "Cargo inválido.\n";
 	}	
 }

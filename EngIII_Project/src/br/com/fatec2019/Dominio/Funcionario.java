@@ -12,7 +12,7 @@ public class Funcionario extends EntidadeDominio
 	private String senha;
 	private String senha2;
 	private String status;
-	private Funcionario funcionario;
+	private Usuario usuario;
 	
 	//GETTERs e SETTERs
 	public Regional getRegional() {return regional;}
@@ -38,7 +38,7 @@ public class Funcionario extends EntidadeDominio
 	
 	public String getCpf() {return cpf;}
 	public void setCpf(String cpf) {this.cpf = cpf;}
-
-	public Funcionario getFuncionario() {return funcionario;}
-	public void setFuncionario(Funcionario funcionario) {this.funcionario = funcionario;}
+	
+	public Usuario getUsuario() {return usuario;}
+	public void setUsuario(Usuario usuario) {this.usuario = usuario;}
 }

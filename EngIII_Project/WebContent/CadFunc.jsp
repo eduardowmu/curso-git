@@ -41,17 +41,29 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
 						</button>
 					</div>
 					<!-- compatibilidade para dispositivos menores-->
 					<div class="collapse navbar-collapse" id="barra-navegacao">
-						<h2 class="barra"><b id=titulo>Sistema de Atendimento</b></h2>
+						<h2 class="barra">
+							<b id=titulo>Sistema de Atendimento</b>
+							<%  Resposta resposta = (Resposta)session.getAttribute("resposta");
+								if(resposta != null && resposta.getEntidades() != null &&
+									!resposta.getEntidades().isEmpty())
+								{	for(EntidadeDominio ed:resposta.getEntidades())
+									{	if(ed instanceof Usuario)
+										{out.print(ed.getNome());}
+									}
+								}
+							%>
+						</h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="barra-direita" href="FuncForm.html">Funcionarios</a></li>
+							<li><a class="barra-direita" href="CadFunc.jsp">Funcionarios</a></li>
 							<li><a class="barra-direita" href="#">Categorias</a></li>
 							<li><a class="barra-direita" href="#">Chamados</a></li>
-							<li><a class="barra-direita" href="login.html">Sair</a></li>
+							<li><a class="barra-direita" href="login.jsp">Sair</a></li>
 						</ul>
 					</div>
 				</div>
@@ -59,14 +71,33 @@
     	</div>
     	<!-- Formulário -->
     	<div id="form" align="center">
-    	<%	Resposta resposta = (Resposta)session.getAttribute("resposta");
-			if(resposta != null && resposta.getMsg() != null)
+    	<%	if(resposta != null && resposta.getMsg() != null &&
+				(resposta.getMsg().contains("Dados inválidos.") ||
+				 resposta.getMsg().contains("Preencha pelo menos um campo.") ||
+				 resposta.getMsg().contains("CPF inválido!") ||
+				 resposta.getMsg().contains("Usuário já cadastrado") ||
+				 resposta.getMsg().contains("Campo Regional não preenchido") ||
+				 resposta.getMsg().contains("Setor inválido") ||
+				 resposta.getMsg().contains("Cargo inválido") ||
+				 resposta.getMsg().contains("E-mail incorreto") ||
+				 resposta.getMsg().contains("Senha inválida! No mínimo 8 caracteres, 1 letra minúscula e maiúscula e 1 caractere especial. Ex: !@#$%¨&*") ||
+				 resposta.getMsg().contains("Senhas não batem")))
 			{out.print("<div class='alert alert-danger'>"+resposta.getMsg()+"</div>");}
 		%>
     		<fieldset>
     			<legend><i><b>Cadastro de Funcionários</b></i></legend>
 		        <form action="MyServlet" method="post">
-		        	<table>
+		        	<input type="hidden" id="cf" name="cf" 
+													value="<%	if(resposta != null && resposta.getEntidades() != null)
+																{	if(!resposta.getEntidades().isEmpty())
+																	{	for(EntidadeDominio ed:resposta.getEntidades())
+																		{	if(ed instanceof Usuario)
+																			{out.print(ed.getNome());}
+																		}
+																	}
+																}
+															%>"/>
+					<table>
 		                <thead>
 		                <tr>
 		                    <td><input type="text" name="nome" id="nome" class="form-control" 
@@ -80,7 +111,7 @@
 		                    </td>
 		                </tr>
 		                <tr>
-		                    <td>
+		                    <td align="center">Regional:<br/>
 		                    	<select name="regional" id="regional" class="form-control">
 		                    		<option value = "1">Zona Sul</option>
 		                    		<option value = "2">Zona Leste</option>
@@ -89,7 +120,7 @@
 		                    		<option value = "5">Mogi das Cruzes</option>
 		                    	</select>
 		                    </td>
-		                    <td>
+		                    <td align="center">Setor:<br/>
 		                    	<select name="setor" id="setor" class="form-control">
 		                    		<option value = "1">Recursos Humanos</option>
 		                    		<option value = "2">Tecnologia da Informacao</option>
@@ -99,7 +130,7 @@
 		                    		<option value = "6">Engenharia</option>
 		                    	</select>
 		                    </td>
-		                    <td>
+		                    <td align="center">Cargo:<br/>
 								<select name="cargo" id="cargo" class="form-control">
 		                    		<option value = "1">Engenheiro</option>
 		                    		<option value = "2">Secretario</option>
@@ -110,13 +141,13 @@
 							</td>
 		                </tr>
 		                <tr>
-							<td><br/>
+							<td align="center">Senha:<br/>
 								<input type="password" name="senha1" id="senha1" 
 									placeholder="8 dig., 1 Caracter especial, 1 letra maicuscula e minuscula" 
 									required class="form-control"/>
 							</td>
 							<td><br/>
-								<input type="password" name="senha2" id="senha2" placeholder="Repita senha" 
+								<input type="password" name="senha2" id="senha2" placeholder="Repita a senha" 
 									 required class="form-control"/>
 							</td>
 							<td align="center">Contratado em:<br/>

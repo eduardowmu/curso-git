@@ -16,7 +16,7 @@ public class ValidadorExistencia extends AbstractStrategy
 		{	for(EntidadeDominio ed : dao.Consultar(funcionario))
 			{	Funcionario f = (Funcionario)ed;
 				if(f.getEmail().equals(funcionario.getEmail()) || f.getCpf().equals(funcionario.getCpf()))
-					return "Usuário já cadastrado. ";
+					return "Usuário já cadastrado.\n";
 			}
 		}
 		return null;

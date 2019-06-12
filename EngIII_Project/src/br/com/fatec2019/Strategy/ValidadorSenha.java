@@ -33,6 +33,6 @@ public class ValidadorSenha extends AbstractStrategy
 			if((e > 0 && l > 0 && u > 0))	
 				return null;
 		}
-		return "Senha inválida! No mínimo 8 caracteres, 1 letra minúscula e maiúscula e 1 caractere especial. Ex: !@#$%¨&*. ";
+		return "Senha inválida! No mínimo 8 caracteres, 1 letra minúscula e maiúscula e 1 caractere especial. Ex: !@#$%¨&*.\n";
 	}	
 }

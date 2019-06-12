@@ -47,25 +47,36 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
 						</button>
 					</div>
 					<!-- compatibilidade para dispositivos menores-->
 					<div class="collapse navbar-collapse" id="barra-navegacao">
-						<h2 class="barra"><b id=titulo>Sistema de Atendimento</b></h2>
+						<h2 class="barra">
+							<b id=titulo>Sistema de Atendimento</b><br/>
+							<%  Resposta resposta = (Resposta)session.getAttribute("resposta");
+								if(resposta != null && resposta.getEntidades() != null &&
+									!resposta.getEntidades().isEmpty())
+								{	for(EntidadeDominio ed:resposta.getEntidades())
+									{	if(ed instanceof Usuario)
+										{out.print(ed.getNome());}
+									}
+								}
+							%>
+						</h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="barra-direita" href="FuncForm.html">Funcionarios</a></li>
+							<li><a class="barra-direita" href="CadFunc.jsp">Funcionarios</a></li>
 							<li><a class="barra-direita" href="#">Categorias</a></li>
 							<li><a class="barra-direita" href="#">Chamados</a></li>
-							<li><a class="barra-direita" href="login.html">Sair</a></li>
+							<li><a class="barra-direita" href="login.jsp">Sair</a></li>
 						</ul>
 					</div>
 				</div>
 			</nav>
     	</div>
 		<div id="form">
-			<%	Resposta resposta = (Resposta)session.getAttribute("resposta");
-				StringBuilder sbRegistro = null;
+			<%	StringBuilder sbRegistro = null;
 				if(resposta != null && resposta.getMsg() != null)
 				{	if(resposta != null && (resposta.getMsg().equals("Funcionário Cadastrado!") ||
 						resposta.getMsg().equals("Dados da Consulta!") || 
@@ -108,7 +119,8 @@
 						<td class="formulario"><br/>
 							<select name="setor" id="setor" class="form-control">
 								<option value = "0">Setor</option>
-								<%	if(resposta != null && resposta.getEntidades() != null)
+								<%	String user_email = "";
+									if(resposta != null && resposta.getEntidades() != null)
 									{	for(EntidadeDominio ed:resposta.getEntidades())
 										{	if(ed instanceof Setor)
 											{	sbRegistro = new StringBuilder();
@@ -176,9 +188,25 @@
 				</table>
 				<table align="center">
 					<tr>
+						<input type="hidden" id="cf" name="cf" 
+														value="<%	if(resposta != null && resposta.getEntidades() != null)
+																	{	if(!resposta.getEntidades().isEmpty())
+																		{	for(EntidadeDominio ed:resposta.getEntidades())
+																			{	if(ed instanceof Usuario)
+																				{	out.print(ed.getNome());
+																					user_email = ed.getNome();
+																				}
+																			}
+																		}
+																	}
+																%>"/>
 						<td class="formulario"><br/>
 							<button type="submit" name="funcionario" value="ConsultarFuncionario" 
 								class="btn btn-primary form-control">Consultar</button>
+						</td>
+						<td class="formulario"><br/>
+							<button type="submit" name="funcionario" value="FormularFuncionario" 
+								class="btn btn-success form-control">Cadastrar</button>
 						</td>
 					</tr>
 				</table>
@@ -221,6 +249,7 @@
 										sbLink.setLength(0);
 										//dados do funcionario cadastrado
 										sbRegistro.append("<form action='MyServlet' method='post'><tr>");
+										sbRegistro.append("<input type='hidden' id='cf2' name='cf2' value='" + user_email + "'/>");
 										sbRegistro.append("<td class='linha' align='center'>");
 										sbRegistro.append("<input type='hidden' name='id' value='" + 
 											funcionario.getCodigo() + "'/>");

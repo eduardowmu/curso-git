@@ -46,7 +46,7 @@ public class FuncionarioDAO extends AbstractDAO
 			ps.setDate(7, new java.sql.Date(funcionario.getDataRegistro().getTime()));
 			ps.setString(8, funcionario.getStatus());
 			ps.setString(9, funcionario.getSenha());
-			ps.setInt(10, 1);
+			ps.setInt(10, funcionario.getUsuario().getCodigo());
 			
 			//executa o comando sql
 			ps.executeUpdate();
@@ -134,7 +134,7 @@ public class FuncionarioDAO extends AbstractDAO
 	@Override public List<EntidadeDominio> Consultar(EntidadeDominio entidade) 
 	{	PreparedStatement ps = null;
 		Funcionario funcionario = (Funcionario)entidade;
-		
+		Usuario u = null;
 		//instancia de funcionario que será criado dentro do looping de consulta (ABAIXO)
 		Funcionario f = null;
 		//lista que será retornada pela consulta
@@ -189,6 +189,9 @@ public class FuncionarioDAO extends AbstractDAO
 				f.setDataRegistro(new java.sql.Date(rs.getDate("contratado").getTime()));
 				f.setStatus(rs.getString("estatus"));
 				f.setSenha(rs.getString("senha"));
+				u = new Usuario();
+				u.setCodigo(rs.getInt("usuario"));
+				f.setUsuario(u);
 				//adiciona este novo funcionario na lista de funcionarios a
 				//ser retornado
 				funcionarios.add(f);
@@ -358,9 +361,68 @@ public class FuncionarioDAO extends AbstractDAO
 		return f;
 	}
 
-	@Override
-	public List<EntidadeDominio> Consultar() {
-		// TODO Auto-generated method stub
-		return null;
+	@Override public List<EntidadeDominio> Consultar() 
+	{	PreparedStatement ps = null;
+		//instancia de funcionario que será criado dentro do looping de consulta (ABAIXO)
+		Funcionario f = null;
+		Usuario u = null;
+		//lista que será retornada pela consulta
+		List<EntidadeDominio> funcionarios = new ArrayList<>();
+		try	//obtem a conexão a se estiver nula
+		{	if(this.connection == null || this.connection.isClosed())
+				this.connection = this.getConnection();
+			
+			//impede o auto-commit
+			this.connection.setAutoCommit(false);
+			//prepara o comando SQL de consulta
+			ps = this.connection.prepareStatement("SELECT * FROM funcionarios");
+			
+			//execução da query de busca
+			ResultSet rs = ps.executeQuery();
+			
+			//enquanto houver registro
+			while(rs.next())
+			{	f = new Funcionario();//instancia um novo funcionario
+				//atribui valores das colunas de cada registro
+				f.setCodigo(rs.getInt("matricula"));
+				f.setNome(rs.getString("nome"));
+				f.setCpf(rs.getString("cpf"));
+				f.setCargo(new Cargo(rs.getInt("cargo")));
+				CargoDAO cdao = new CargoDAO();
+				f.getCargo().setNome(cdao.ConsultarEntidade(f.getCargo()).getNome());
+				f.setSetor(new Setor(rs.getInt("setor_id")));
+				SetorDAO sdao = new SetorDAO();
+				f.getSetor().setNome(sdao.ConsultarEntidade(f.getSetor()).getNome());
+				f.setRegional(new Regional(rs.getInt("regional_id")));
+				RegionalDAO rdao = new RegionalDAO();
+				f.getRegional().setNome(rdao.ConsultarEntidade(f.getRegional()).getNome());
+				f.setEmail(rs.getString("email"));
+				f.setDataCadastro(new java.sql.Timestamp(rs.getTimestamp("cadastro").getTime()));
+				f.setDataRegistro(new java.sql.Date(rs.getDate("contratado").getTime()));
+				f.setStatus(rs.getString("estatus"));
+				f.setSenha(rs.getString("senha"));
+				u = new Usuario();
+				u.setCodigo(rs.getInt("usuario"));
+				f.setUsuario(u);
+				//adiciona este novo funcionario na lista de funcionarios a
+				//ser retornado
+				funcionarios.add(f);
+			}
+			if(this.connection != null && !this.connection.isClosed())
+				this.connection.commit();
+		}
+		catch(ClassNotFoundException | SQLException e)
+		{	try {this.connection.rollback();}
+			catch(SQLException e1) {e1.printStackTrace();}
+			e.printStackTrace();
+		}
+		finally
+		{	try
+			{	ps.close();
+				this.connection.close();
+			}
+			catch(SQLException e2){e2.printStackTrace();}
+		}
+		return funcionarios;
 	}
 }

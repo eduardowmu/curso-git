@@ -20,12 +20,14 @@ import br.com.fatec2019.Dominio.Funcionario;
 import br.com.fatec2019.Dominio.Cargo;
 import br.com.fatec2019.Dominio.Regional;
 import br.com.fatec2019.Dominio.Setor;
+import br.com.fatec2019.Dominio.Usuario;
 
 //classe responsável por instanciar, principalmente a 
 //classe de funcionario 
 public class FuncionarioVH implements IViewHelper
 {	@Override public EntidadeDominio getEntidade(HttpServletRequest request) 
 	{	Funcionario funcionario = null;
+		Usuario usuario = null;
 		Setor setor = null;
 		Regional regional = null;
 		Cargo cargo = null;
@@ -34,7 +36,10 @@ public class FuncionarioVH implements IViewHelper
 		{	case "CadastrarFuncionario"://se for para cadastrar
 				//atribui os valores preecnhidos nos respectivos campos , desconsiderando espaços a 
 				//esquerda e direita do valor (trim())
+				usuario = new Usuario();
+				usuario.setNome(request.getParameter("cf"));
 				funcionario = new Funcionario();
+				funcionario.setUsuario(usuario);
 				funcionario.setNome(request.getParameter("nome").trim());
 				funcionario.setCpf(request.getParameter("cpf"));
 				
@@ -56,31 +61,27 @@ public class FuncionarioVH implements IViewHelper
 				break;
 				
 			case "ConsultarFuncionario":
+				usuario = new Usuario();
+				usuario.setNome(request.getParameter("cf"));
 				funcionario = new Funcionario();
-				try	//se o campo de codigo estiver vazio, atribua zero
-				{	if(request.getParameter("matricula").equals(""))
-					{funcionario.setCodigo(0);}
+				funcionario.setUsuario(usuario);
+				if(request.getParameter("matricula").equals("") || request.getParameter("matricula") == null)
+				{funcionario.setCodigo(0);}
 					
-					//se os respectivos campos estiverem preenchidos, atribua-os os valores dos campos 
-					else funcionario.setCodigo(Integer.parseInt(request.getParameter("matricula")));
-				}
-				catch(NullPointerException e) {funcionario.setCodigo(0);}
+				//se os respectivos campos estiverem preenchidos, atribua-os os valores dos campos 
+				else funcionario.setCodigo(Integer.parseInt(request.getParameter("matricula")));
 				
-				try	//mesmo pensamento anterior
-				{	if(request.getParameter("nome").equals(""))
-					{funcionario.setNome("");}
-					//idem
-					else funcionario.setNome(request.getParameter("nome").trim());
-				}
-				catch(NullPointerException e) {funcionario.setNome("");}
+				if(request.getParameter("nome").equals("") || request.getParameter("nome") == null)
+				{funcionario.setNome("");}
 				
-				try	//mesmo pensamento anterior
-				{	if(request.getParameter("cpf").equals(""))
-					{funcionario.setCpf("");}
-					//idem
-					else funcionario.setCpf(request.getParameter("cpf").trim());
-				}
-				catch(NullPointerException e) {funcionario.setCpf("");}
+				//idem
+				else funcionario.setNome(request.getParameter("nome").trim());
+				
+				if(request.getParameter("cpf").equals("") || request.getParameter("cpf") == null)
+				{funcionario.setCpf("");}
+				
+				//idem
+				else funcionario.setCpf(request.getParameter("cpf").trim());
 				
 				try//data de contratação
 				{	if(!request.getParameter("data").equals(""))
@@ -93,39 +94,37 @@ public class FuncionarioVH implements IViewHelper
 					catch (ParseException e1) {}
 				}
 				
-				try
-				{	if(request.getParameter("setor").equals("0"))
-					{funcionario.setSetor(new Setor(0));}
+				if(request.getParameter("setor").equals("0"))
+				{funcionario.setSetor(new Setor(0));}
 						
-					else funcionario.setSetor(new Setor(Integer.parseInt(request.getParameter("setor"))));
-				}
-				catch(NullPointerException e) {funcionario.setSetor(new Setor(0));}
+				else funcionario.setSetor(new Setor(Integer.parseInt(request.getParameter("setor"))));
 				
-				try
-				{	if(request.getParameter("regional").equals("0"))
-					{funcionario.setRegional(new Regional(0));}
+				if(request.getParameter("regional").equals("0"))
+				{funcionario.setRegional(new Regional(0));}
 						
-					else funcionario.setRegional(new Regional(Integer.parseInt(request.getParameter("regional"))));
-				}
-				catch(NullPointerException e) {funcionario.setSetor(new Setor(0));}
+				else funcionario.setRegional(new Regional(Integer.parseInt(request.getParameter("regional"))));
 				
-				try
-				{	if(!request.getParameter("cargo").equals(""))
-					{funcionario.setCargo(new Cargo(Integer.parseInt(request.getParameter("cargo"))));}
-				}
-				catch(NullPointerException e)	{funcionario.setCargo(new Cargo(0));}
+				if(request.getParameter("cargo").equals("0"))
+				{funcionario.setCargo(new Cargo(0));}
 				
-				try
-				{	if(request.getParameter("email").equals(""))
-					{funcionario.setEmail("");}
+				else funcionario.setCargo(new Cargo(Integer.parseInt(request.getParameter("cargo"))));
+				
+				if(request.getParameter("email").equals("") || request.getParameter("email") == null)
+				{funcionario.setEmail("");}
 					
-					else funcionario.setEmail(request.getParameter("email").trim());
-				}
-				catch(NullPointerException e)	{funcionario.setEmail("");}
+				else funcionario.setEmail(request.getParameter("email").trim());
+				
+				usuario = new Usuario();
+				usuario.setNome(funcionario.getEmail());
+				funcionario.setUsuario(usuario);
+				
 				break;
 			
 			case "VisualizarFuncionario":
+				usuario = new Usuario();
+				usuario.setNome(request.getParameter("cf2"));
 				funcionario = new Funcionario();
+				funcionario.setUsuario(usuario);
 				//int codigo = Integer.parseInt(request.getParameter("id"));
 				//busca do funcionario apenas pelo ID
 				funcionario.setCodigo(Integer.parseInt(request.getParameter("id")));
@@ -136,6 +135,9 @@ public class FuncionarioVH implements IViewHelper
 				funcionario.setSetor(new Setor(Integer.parseInt(request.getParameter("setor2"))));
 				funcionario.setRegional(new Regional(Integer.parseInt(request.getParameter("regional2"))));
 				funcionario.setEmail("Email");
+				usuario = new Usuario();
+				usuario.setNome(funcionario.getEmail());
+				funcionario.setUsuario(usuario);
 				funcionario.setCargo(new Cargo(Integer.parseInt(request.getParameter("cargo2"))));
 				//data de contratação
 				try {funcionario.setDataRegistro(dtf.parse(request.getParameter("contrato")));} 
@@ -146,7 +148,10 @@ public class FuncionarioVH implements IViewHelper
 			case "AlterarFuncionario":
 				//atribui os valores preecnhidos nos respectivos campos , desconsiderando espaços a 
 				//esquerda e direita do valor (trim())
+				usuario = new Usuario();
+				usuario.setNome(request.getParameter("cf"));
 				funcionario = new Funcionario();
+				funcionario.setUsuario(usuario);
 				
 				funcionario.setCodigo(Integer.parseInt(request.getParameter("matricula")));
 				
@@ -168,6 +173,10 @@ public class FuncionarioVH implements IViewHelper
 				funcionario.setCargo(new Cargo(Integer.parseInt(request.getParameter("cargo"))));
 				
 				funcionario.setEmail(request.getParameter("email").trim());
+				usuario = new Usuario();
+				usuario.setNome(funcionario.getEmail());
+				funcionario.setUsuario(usuario);
+				
 				funcionario.setSenha(request.getParameter("senha1").trim());
 				funcionario.setSenha2(request.getParameter("senha2").trim());
 				break;
@@ -202,28 +211,46 @@ public class FuncionarioVH implements IViewHelper
 				catch (ParseException e1) {}
 				funcionario.setEmail(request.getParameter("email").trim());
 				funcionario.setSenha(request.getParameter("senha").trim());
+				usuario = new Usuario();
+				usuario.setNome(funcionario.getEmail());
+				funcionario.setUsuario(usuario);
+				
 				break;
 			
 			case "ExcluirFuncionario":
+				usuario = new Usuario();
+				usuario.setNome(request.getParameter("cf2"));
 				funcionario = new Funcionario();
-				try	
-				{	if(!request.getParameter("id").equals(""))
-					{funcionario.setCodigo(Integer.parseInt(request.getParameter("id")));}
+				funcionario.setUsuario(usuario);
+				if(!request.getParameter("id").equals("") && request.getParameter("id") != null)
+				{funcionario.setCodigo(Integer.parseInt(request.getParameter("id")));}
 				
-					else funcionario.setCodigo(0);
-				}
-				catch(NullPointerException e) {funcionario.setCodigo(0);}
+				else funcionario.setCodigo(0);
+				
+				break;
+				
+			case "FormularFuncionario":
+				funcionario = new Funcionario();
+				usuario = new Usuario();
+				if(request.getParameter("cf").equals("") || request.getParameter("cf") == null)
+				{usuario.setNome("");}
+				
+				else usuario.setNome(request.getParameter("cf"));
+				
+				funcionario.setUsuario(usuario);
+				
 				break;
 				
 			case "InativarFuncionario":
+				usuario = new Usuario();
+				usuario.setNome(request.getParameter("cf2"));
 				funcionario = new Funcionario();
-				try
-				{	if(request.getParameter("id").equals(""))
-					{funcionario.setCodigo(0);}
+				funcionario.setUsuario(usuario);
+				
+				if(request.getParameter("id").equals("") || request.getParameter("id") == null)
+				{funcionario.setCodigo(0);}
 					
-					else funcionario.setCodigo(Integer.parseInt(request.getParameter("id")));
-				}
-				catch(NullPointerException e) {funcionario.setCodigo(0);}
+				else funcionario.setCodigo(Integer.parseInt(request.getParameter("id")));
 				/*funcionario.setNome("");
 				funcionario.setCpf("");
 				funcionario.setSetor(new Setor(0));
@@ -315,15 +342,11 @@ public class FuncionarioVH implements IViewHelper
 				
 			case "AlterarSenha":
 				if(resposta.getMsg() == null)
-				{	resposta.setMsg("Senha Alterada!");
-					request.getSession().setAttribute("resposta", resposta);
-					rd = request.getRequestDispatcher("ListaFuncionarios.jsp");
-				}
+				{resposta.setMsg("Senha Alterada!");}
 				
-				else
-				{	request.getSession().setAttribute("resposta", resposta);
-					rd = request.getRequestDispatcher("alterar_senha.jsp");
-				}
+				request.getSession().setAttribute("resposta", resposta);
+				rd = request.getRequestDispatcher("login.jsp");
+				
 				break;
 			
 			case "ConsultarFuncionario":
@@ -345,6 +368,12 @@ public class FuncionarioVH implements IViewHelper
 				{	request.getSession().setAttribute("resposta", resposta);
 					rd = request.getRequestDispatcher("ListaFuncionarios.jsp");
 				}
+				break;
+				
+			case "FormularFuncionario":
+				resposta.setMsg("Insira os dados a serem alterados");
+				request.getSession().setAttribute("resposta", resposta);
+				rd = request.getRequestDispatcher("CadFunc.jsp");
 				break;
 				
 			case "ExcluirFuncionario":
