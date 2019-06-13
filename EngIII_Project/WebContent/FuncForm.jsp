@@ -67,10 +67,10 @@
 						</h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="barra-direita" href="FuncForm.html">Funcionarios</a></li>
+							<li><a class="barra-direita" href="FuncForm.jsp">Funcionarios</a></li>
 							<li><a class="barra-direita" href="#">Categorias</a></li>
 							<li><a class="barra-direita" href="#">Chamados</a></li>
-							<li><a class="barra-direita" href="login.html">Sair</a></li>
+							<li><a class="barra-direita" href="login.jsp">Sair</a></li>
 						</ul>
 					</div>
 				</div>
@@ -99,6 +99,7 @@
 		            <input type="hidden" id="cf" name="cf" value="<% out.print(user_email);%>"/>
 					<input type="hidden" id="cf1" name="cf1" value="<% out.print(user_id);%>"/>
 					<table>
+						<td style="display:none;">
 		            	<input type="hidden" name="matricula" value="<%	if(resposta != null && resposta.getMsg() != null)
 												                    	{	for(EntidadeDominio ed:resposta.getEntidades())
 													                    	{	if(ed instanceof Funcionario)
@@ -106,6 +107,7 @@
 													                    	}
 												                    	}
 		            												%>"/>
+		            	</td>
 		            	<tr>
 		                    <td><input type="text" name="nome" id="nome" class="form-control" 
 		                    	size="50" placeholder="Nome completo" required
@@ -143,7 +145,7 @@
 		                    </td>
 		                </tr>
 		                <tr>
-		                    <td>
+		                    <td align="center">Regional:<br/>
 		                    	<select name="regional" id="regional" class="form-control">
 		                    		<%	if(resposta != null)
 										{	Funcionario funcionario = null;
@@ -175,7 +177,7 @@
 		                    		<option value = "5">Mogi das Cruzes</option> -->
 		                    	</select>
 		                    </td>
-		                    <td>
+		                    <td align="center">Setor:<br/>
 		                    	<select name="setor" id="setor" class="form-control">
 		                    		<%	if(resposta != null)
 										{	Funcionario funcionario = null;
@@ -208,7 +210,7 @@
 		                    		<option value = "6">Engenharia</option> -->
 		                    	</select>
 		                    </td>
-		                    <td>
+		                    <td align="center">Cargo:<br/>
 								<select name="cargo" id="cargo" class="form-control">
 		                    		<%	if(resposta != null)
 										{	Funcionario funcionario = null;
@@ -242,7 +244,7 @@
 							</td>
 		                </tr>
 		                <tr>
-							<td><br/>
+							<td align="center">Senha:<br/>
 								<input type="password" name="senha1" id="senha1" 
 									placeholder="8 dig., 1 Caracter especial, 1 letra maicuscula e minuscula" 
 									required class="form-control" value="<%	if(resposta != null)
@@ -256,7 +258,7 @@
 																			}
 																			%>"/>
 							</td>
-							<td><br/>
+							<td align="center">Confirme a senha:<br/>
 								<input type="password" name="senha2" id="senha2" placeholder="Repita senha" 
 									 required class="form-control" value="<%if(resposta != null)
 																			{	for(EntidadeDominio ed:resposta.getEntidades())

@@ -27,6 +27,30 @@
 	    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js">
 	    </script>
 	    <![endif]-->
+	    <script
+		  src="https://code.jquery.com/jquery-3.4.1.min.js"
+		  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+		  crossorigin="anonymous"></script>
+	    <script>
+	    	$(document).ready(function(){
+	    		var confirmouSla = false;
+	    		$(".btn-excluir").on("click", function(e){
+	    			if (!confirmouSla) {
+		    			e.preventDefault();
+		    			
+		    			var s = confirm("Tem certeza que deseja excluir?");
+		    			if(s)
+		    			{
+		    				confirmouSla = true;
+		    				$(this).click();
+		    			}
+	    			} else {
+	    				$(this).click();
+	    			}
+	    			
+	    		});
+	    	});
+	    </script>
 	    <link href="CSS/ListaFuncionarios.css" rel="stylesheet">
 	    <script src="scripts.js"></script>
 	</head>
@@ -190,6 +214,7 @@
 						<%	String user_email = "";
 							int user_id = 0;
 						 %>
+						<td style="display:none;">
 						<input type="hidden" id="cf" name="cf" 
 														value="<%	if(resposta != null && resposta.getEntidades() != null)
 																	{	if(!resposta.getEntidades().isEmpty())
@@ -204,6 +229,7 @@
 																	out.print(user_email);
 																%>"/>
 						<%out.print("<input type='hidden' id='cf1' name='cf1' value='"+user_id+"'/>"); %>
+						</td>
 						<td class="formulario"><br/>
 							<button type="submit" name="funcionario" value="ConsultarFuncionario" 
 								class="btn btn-primary form-control">Consultar</button>
@@ -252,7 +278,7 @@
 										sbRegistro.setLength(0);
 										sbLink.setLength(0);
 										//dados do funcionario cadastrado
-										sbRegistro.append("<form action='MyServlet' method='post'><tr>");
+										sbRegistro.append("<form action='MyServlet' id='myform' method='post'><tr>");
 										sbRegistro.append("<input type='hidden' id='cf2' name='cf2' value='" + user_email + "'/>");
 										sbRegistro.append("<input type='hidden' id='cf3' name='cf3' value='" + user_id + "'/>");
 										sbRegistro.append("<td class='linha' align='center'>");
@@ -307,9 +333,15 @@
 										sbRegistro.append(funcionario.getDataCadastro());
 										sbRegistro.append("</td>");
 										sbRegistro.append("<td align='center'>");
-										sbRegistro.append("<button type='submit' class='btn btn-link acao form-control' name='funcionario' id='funcionario' value='ExcluirFuncionario'>" +
-															"<img src='imagens/seo-social-web-network-internet_262_icon-icons.com_61518.png'/></button>");
-										sbRegistro.append("</td>");
+										if(funcionario.getCodigo() == user_id)
+										{	sbRegistro.append("<img id='lixo' src='imagens/seo-social-web-network-internet_262_icon-icons.com_61518.png'/>");
+											sbRegistro.append("</td>");
+										}
+										else
+										{	sbRegistro.append("<button type='submit' class='btn btn-link acao form-control btn-excluir' name='funcionario' id='funcionario' value='ExcluirFuncionario'>" +
+												"<img src='imagens/seo-social-web-network-internet_262_icon-icons.com_61518.png'/></button>");
+											sbRegistro.append("</td>");
+										}
 										sbRegistro.append("<td align='center'>");
 										sbRegistro.append("<button type='submit' class='btn btn-link acao form-control' name='funcionario' id='funcionario' value='VisualizarFuncionario'>" +
 															"<img src='imagens/edit_pencil_6320.png'/></button>");

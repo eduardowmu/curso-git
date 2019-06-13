@@ -77,7 +77,7 @@ public class MyServlet extends HttpServlet
 		EntidadeDominio entidade = vh.getEntidade(request);
 		
 		//Obtêm o command para executar a respectiva operação
-		ICommand command = commands.get(request.getParameter("funcionario"));
+		ICommand command = commands.get(request.getParameter(entidade.getClass().getSimpleName().toLowerCase()));
 		
 		/*Executa o command que chamará a fachada para executar a operação requisitada
 		 o retorno é uma instância da classe resultado que pode conter mensagens derro 
