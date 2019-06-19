@@ -55,9 +55,9 @@
 						<h2 class="barra"><b id=titulo>Sistema de Atendimento</b></h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="barra-direita" href="#">Funcionarios</a></li>
-							<li><a class="barra-direita" href="#">Categorias</a></li>
-							<li><a class="barra-direita" href="#">Chamados</a></li>
+							<li><a class="barra-direita" href="login.jsp">Login</a></li>
+							<li><a class="barra-direita" href="#">Contato</a></li>
+							<li><a class="barra-direita" href="#">Empresa</a></li>
 						</ul>
 					</div>
 				</div>
@@ -66,7 +66,18 @@
 		<div id="form" align="center">
 			<%	Resposta resposta = (Resposta)session.getAttribute("resposta");
 				if(resposta != null)
-				{out.print("<div class='alert alert-danger' align='center'>" + resposta.getMsg() + "</div>");}
+				{	if(!resposta.getMsg().equals(""))
+					{	if(resposta.getMsg().contains("E-mail incorreto") ||
+							resposta.getMsg().contains("Senha inválida") ||
+							resposta.getMsg().contains("Senhas não batem") ||
+							resposta.getMsg().contains("E-mail não cadastrado"))
+						{	out.print("<div class='alert alert-warning' align='center'>" + 
+								resposta.getMsg() + "</div>");
+						}
+					}
+				}
+				
+				
 			%>
 			<form action="MyServlet" method="post">
 				<fieldset>

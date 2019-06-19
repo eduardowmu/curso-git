@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import = "java.util.*,br.com.fatec2019.Dominio.*" %>
 <%@ page import = "java.util.*,br.com.fatec2019.Controle.*" %>
+<%@ page import = "java.text.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br">
     <head>
@@ -53,7 +54,9 @@
 									!resposta.getEntidades().isEmpty())
 								{	for(EntidadeDominio ed:resposta.getEntidades())
 									{	if(ed instanceof Usuario)
-										{out.print(ed.getNome());}
+										{	out.print(ed.getNome());
+											break;
+										}
 									}
 								}
 							%>
@@ -82,7 +85,7 @@
 				 resposta.getMsg().contains("E-mail incorreto") ||
 				 resposta.getMsg().contains("Senha inválida! No mínimo 8 caracteres, 1 letra minúscula e maiúscula e 1 caractere especial. Ex: !@#$%¨&*") ||
 				 resposta.getMsg().contains("Senhas não batem")))
-			{out.print("<div class='alert alert-danger'>"+resposta.getMsg()+"</div>");}
+			{out.print("<div class='alert alert-warning'>"+resposta.getMsg()+"</div>");}
 		%>
     		<fieldset>
     			<legend><i><b>Cadastro de Funcionários</b></i></legend>
@@ -95,6 +98,7 @@
 																		{	if(ed instanceof Usuario)
 																			{	out.print(ed.getNome());
 																				user_id = ed.getCodigo();
+																				break;
 																			}
 																		}
 																	}
@@ -105,42 +109,88 @@
 		                <thead>
 		                <tr>
 		                    <td><input type="text" name="nome" id="nome" class="form-control" 
-		                    	size="50" placeholder="Nome completo" required/>
+		                    	size="50" placeholder="Nome completo" required 
+		                    	value="<%	if(resposta != null && resposta.getEntidades() != null)
+											{	if(!resposta.getEntidades().isEmpty())
+												{	for(EntidadeDominio ed:resposta.getEntidades())
+													{	if(ed instanceof Funcionario)
+														{	out.print(ed.getNome());
+															break;
+														}
+													}
+												}
+											}
+		                    				
+		                    				else out.print("");
+		                    			%>"/>
 		                    </td>
 		                    <td><input type="number" name="cpf" id="cpf" class="form-control" 
-		                    	size="50" placeholder="Número de CPF" required/>
+		                    	size="50" placeholder="Número de CPF" required 
+		                    	value="<%	if(resposta != null && resposta.getEntidades() != null)
+											{	if(!resposta.getEntidades().isEmpty())
+												{	for(EntidadeDominio ed:resposta.getEntidades())
+													{	if(ed instanceof Funcionario)
+														{	Funcionario f = (Funcionario)ed;
+															out.print(f.getCpf());
+															break;
+														}
+													}
+												}
+											}
+		                    				
+		                    				else out.print("");
+		                    			%>"/>
 		                    </td>
 		                    <td><input type="email" name="email" id="email" placeholder="e-mail" 
-		                         size="50" class="form-control" required/>
+		                         size="50" class="form-control" required 
+		                    	value="<%	if(resposta != null && resposta.getEntidades() != null)
+											{	if(!resposta.getEntidades().isEmpty())
+												{	for(EntidadeDominio ed:resposta.getEntidades())
+													{	if(ed instanceof Funcionario)
+														{	Funcionario f = (Funcionario)ed;
+															out.print(f.getEmail());
+															break;
+														}
+													}
+												}
+											}
+		                    				
+		                    				else out.print("");
+		                    			%>"/>
 		                    </td>
 		                </tr>
 		                <tr>
 		                    <td align="center">Regional:<br/>
 		                    	<select name="regional" id="regional" class="form-control">
-		                    		<option value = "1">Zona Sul</option>
-		                    		<option value = "2">Zona Leste</option>
-		                    		<option value = "3">Zona Norte</option>
-		                    		<option value = "4">Zona Oeste</option>
-		                    		<option value = "5">Mogi das Cruzes</option>
+		                    		<%	for(EntidadeDominio ed:resposta.getEntidades())
+			                    		{	if(ed instanceof Regional)
+				                    		{	out.print("<option value = " + ed.getCodigo() + ">" + 
+			                    							ed.getNome() + "</option>");
+				                    		}
+			                    		}
+		                    		%>
 		                    	</select>
 		                    </td>
 		                    <td align="center">Setor:<br/>
 		                    	<select name="setor" id="setor" class="form-control">
-		                    		<option value = "1">Recursos Humanos</option>
-		                    		<option value = "2">Tecnologia da Informacao</option>
-		                    		<option value = "3">Suprimentos</option>
-		                    		<option value = "4">Marketing</option>
-		                    		<option value = "5">Pos Venda</option>
-		                    		<option value = "6">Engenharia</option>
+		                    		<%	for(EntidadeDominio ed:resposta.getEntidades())
+			                    		{	if(ed instanceof Setor)
+				                    		{	out.print("<option value = " + ed.getCodigo() + ">" + 
+			                    							ed.getNome() + "</option>");
+				                    		}
+			                    		}
+		                    		%>
 		                    	</select>
 		                    </td>
 		                    <td align="center">Cargo:<br/>
 								<select name="cargo" id="cargo" class="form-control">
-		                    		<option value = "1">Engenheiro</option>
-		                    		<option value = "2">Secretario</option>
-		                    		<option value = "3">Operador</option>
-		                    		<option value = "4">Desenvolvedor</option>
-		                    		<option value = "5">Analista</option>
+		                    		<%	for(EntidadeDominio ed:resposta.getEntidades())
+			                    		{	if(ed instanceof Cargo)
+				                    		{	out.print("<option value = " + ed.getCodigo() + ">" + 
+			                    							ed.getNome() + "</option>");
+				                    		}
+			                    		}
+		                    		%>
 		                    	</select>
 							</td>
 		                </tr>
@@ -148,15 +198,52 @@
 							<td align="center">Senha:<br/>
 								<input type="password" name="senha1" id="senha1" 
 									placeholder="8 dig., 1 Caracter especial, 1 letra maicuscula e minuscula" 
-									required class="form-control"/>
+									required class="form-control" 
+			                    	value="<%	if(resposta != null && resposta.getEntidades() != null)
+												{	if(!resposta.getEntidades().isEmpty())
+													{	for(EntidadeDominio ed:resposta.getEntidades())
+														{	if(ed instanceof Funcionario)
+															{	Funcionario f = (Funcionario)ed;
+																out.print(f.getSenha());
+																break;
+															}
+														}
+													}
+												}
+			                    			%>"/>
 							</td>
 							<td><br/>
 								<input type="password" name="senha2" id="senha2" placeholder="Repita a senha" 
-									 required class="form-control"/>
+									 required class="form-control" 
+			                    	value="<%	if(resposta != null && resposta.getEntidades() != null)
+												{	if(!resposta.getEntidades().isEmpty())
+													{	for(EntidadeDominio ed:resposta.getEntidades())
+														{	if(ed instanceof Funcionario)
+															{	Funcionario f = (Funcionario)ed;
+																out.print(f.getSenha());
+																break;
+															}
+														}
+													}
+												}
+			                    			%>"/>
 							</td>
 							<td align="center">Contratado em:<br/>
 		                    	<input type="date" name="data" id="data" class="form-control" 
-		                    		placeholder="Contratado em" required/>
+		                    		placeholder="Contratado em" required 
+			                    	value="<%	if(resposta != null && resposta.getEntidades() != null)
+												{	if(!resposta.getEntidades().isEmpty())
+													{	DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+														for(EntidadeDominio ed:resposta.getEntidades())
+														{	if(ed instanceof Funcionario)
+															{	Funcionario f = (Funcionario)ed;
+																out.print(df.format(f.getDataRegistro()));
+																break;
+															}
+														}
+													}
+												}
+			                    			%>"/>
 		                    </td>
 						</tr>
 						<tr>

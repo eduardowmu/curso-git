@@ -345,10 +345,16 @@ public class FuncionarioVH implements IViewHelper
 				
 			case "AlterarSenha":
 				if(resposta.getMsg() == null)
-				{resposta.setMsg("Senha Alterada!");}
+				{	resposta.setMsg("Senha Alterada!");
+					request.getSession().setAttribute("resposta", resposta);
+					rd = request.getRequestDispatcher("login.jsp");
+				}
 				
-				request.getSession().setAttribute("resposta", resposta);
-				rd = request.getRequestDispatcher("login.jsp");
+				else
+				{	request.getSession().setAttribute("resposta", resposta);
+					rd = request.getRequestDispatcher("alterar_senha.jsp");
+				}
+				
 				
 				break;
 			

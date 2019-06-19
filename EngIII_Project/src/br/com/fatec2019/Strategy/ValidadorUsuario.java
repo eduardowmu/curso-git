@@ -16,7 +16,7 @@ public class ValidadorUsuario extends AbstractStrategy
 				{return null;}
 			}
 		}
-		return "Desculpe mas não foi possível completar a ação.";
+		return "Usuário não encontrado.";
 	}
 
 }

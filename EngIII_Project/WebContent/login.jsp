@@ -54,9 +54,9 @@
 						<h2 class="barra"><b id=titulo>Sistema de Atendimento</b></h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="barra-direita" href="#">Funcionarios</a></li>
-							<li><a class="barra-direita" href="#">Categorias</a></li>
-							<li><a class="barra-direita" href="#">Chamados</a></li>
+							<li><a class="barra-direita" href="#">Login</a></li>
+							<li><a class="barra-direita" href="#">Contato</a></li>
+							<li><a class="barra-direita" href="#">Empresa</a></li>
 						</ul>
 					</div>
 				</div>
@@ -67,8 +67,8 @@
 				if(resposta != null && resposta.getMsg() != null)
 				{	if(resposta.getMsg().contains("E-mail incorreto") ||
 						resposta.getMsg().contains("Senha inválida") ||
-						resposta.getMsg().contains("Dados inconsistentes"))
-					{out.print("<div class='alert alert-danger' align='center'>" + resposta.getMsg() + "</div>");}
+						resposta.getMsg().contains("Login ou senha incorreto"))
+					{out.print("<div class='alert alert-warning' align='center'>" + resposta.getMsg() + "</div>");}
 					
 					else if(resposta.getMsg().contains("Senha Alterada!"))
 					{out.print("<div class='alert alert-success' align='center'>" + resposta.getMsg() + "</div>");}

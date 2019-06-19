@@ -54,6 +54,7 @@ public class Fachada implements IFachada
 		RegistradorData rd = new RegistradorData();
 		ValidadorLogin vl = new ValidadorLogin();
 		ValidadorUsuario vus = new ValidadorUsuario();
+		ValidadorUsuarioExistente vue = new ValidadorUsuarioExistente();
 		
 		//instanciando listas de regras de negócio para cada função do CRUD
 		List<IStrategy> rnSalvarFunc = new ArrayList<>();
@@ -100,6 +101,7 @@ public class Fachada implements IFachada
 		rnAlterarSenha.add(vEmail);
 		rnAlterarSenha.add(vSenha);
 		rnAlterarSenha.add(cs);
+		rnAlterarSenha.add(vue);
 		
 		//criar regra para inativar funcionario... que na verdade também
 		//será responsável pela ativação, caso esteja inativado
@@ -176,14 +178,11 @@ public class Fachada implements IFachada
 			{	e.printStackTrace();	
 				resposta.setMsg("Não foi possível realizar o registro!");
 			}
-			finally
-			{	entidades.add(entidade);
-				this.addElementsList(entidades);
-				resposta.setEntidades(entidades);
-			}
 		}
 		else resposta.setMsg(this.executeRules(entidade, "CadastrarFuncionario"));
-		
+		entidades.add(entidade);
+		this.addElementsList(entidades);
+		resposta.setEntidades(entidades);
 		return resposta;
 	}
 

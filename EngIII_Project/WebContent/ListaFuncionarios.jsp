@@ -32,22 +32,19 @@
 		  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
 		  crossorigin="anonymous"></script>
 	    <script>
-	    	$(document).ready(function(){
-	    		var confirmouSla = false;
-	    		$(".btn-excluir").on("click", function(e){
-	    			if (!confirmouSla) {
-		    			e.preventDefault();
+	    	$(document).ready(function() {	
+	    		//var confirmouSla = false;
+	    		$(".btn-excluir").on("click", function(e) {	
+	    			//if (!confirmouSla) {	
+	    				e.preventDefault();
 		    			
 		    			var s = confirm("Tem certeza que deseja excluir?");
-		    			if(s)
-		    			{
-		    				confirmouSla = true;
+		    			if(s) {	
+		    				//confirmouSla = true;
 		    				$(this).click();
 		    			}
-	    			} else {
-	    				$(this).click();
-	    			}
-	    			
+	    			} 
+	    			//else {$(this).click();}
 	    		});
 	    	});
 	    </script>
@@ -83,14 +80,16 @@
 									!resposta.getEntidades().isEmpty())
 								{	for(EntidadeDominio ed:resposta.getEntidades())
 									{	if(ed instanceof Usuario)
-										{out.print(ed.getNome());}
+										{	out.print(ed.getNome());
+											break;
+										}
 									}
 								}
 							%>
 						</h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="barra-direita" href="CadFunc.jsp">Funcionarios</a></li>
+							<li><a class="barra-direita" href="#">Funcionarios</a></li>
 							<li><a class="barra-direita" href="#">Categorias</a></li>
 							<li><a class="barra-direita" href="#">Chamados</a></li>
 							<li><a class="barra-direita" href="login.jsp">Sair</a></li>
@@ -111,7 +110,7 @@
 						resposta.getMsg().equals("Dados Alterados!")))
 					{out.print("<div class='alert alert-success' align='center'>" + resposta.getMsg() + "</div>");}
 				
-					else out.print("<div class='alert alert-danger' align='center'>" + resposta.getMsg() + "</div>");
+					else out.print("<div class='alert alert-warning' align='center'>" + resposta.getMsg() + "</div>");
 				}
 			%>
 			<form action="MyServlet" method="get">
@@ -222,6 +221,7 @@
 																			{	if(ed instanceof Usuario)
 																				{	user_email = ed.getNome();
 																					user_id = ed.getCodigo();
+																					break;
 																				}
 																			}
 																		}
