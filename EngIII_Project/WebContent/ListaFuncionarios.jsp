@@ -31,23 +31,24 @@
 		  src="https://code.jquery.com/jquery-3.4.1.min.js"
 		  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
 		  crossorigin="anonymous"></script>
-	    <script>
+	    <!-- <script>
 	    	$(document).ready(function() {	
-	    		//var confirmouSla = false;
+	    		var confirmouSla = false;
 	    		$(".btn-excluir").on("click", function(e) {	
-	    			//if (!confirmouSla) {	
+	    			if (!confirmouSla) {	
 	    				e.preventDefault();
 		    			
 		    			var s = confirm("Tem certeza que deseja excluir?");
+		    			console.log(s);
 		    			if(s) {	
-		    				//confirmouSla = true;
+		    				confirmouSla = true;
 		    				$(this).click();
 		    			}
 	    			} 
-	    			//else {$(this).click();}
+	    			else {$(this).click();}
 	    		});
 	    	});
-	    </script>
+	    </script> -->
 	    <link href="CSS/ListaFuncionarios.css" rel="stylesheet">
 	    <script src="scripts.js"></script>
 	</head>
@@ -126,7 +127,7 @@
 								size="30" class="form-control"/>
 						</td>
 						<td class="formulario"><br/>
-							<input type="number" name="cpf" placeholder="Numero de CPF" 
+							<input type="number" name="cpf" placeholder="Numero de CPF" max="11"
 								size="30" class="form-control"/>
 						</td>
 						<td class="formulario"><br/>
